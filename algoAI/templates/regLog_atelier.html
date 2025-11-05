@@ -1,0 +1,25 @@
+{% include "includes/header.html" %}
+{% load static %}
+<div class="container">
+    <h2 class="mb-4">Atelier Pretique - Classification des vehicules</h2>
+    <div class="row">
+        <div class="col-mb-6">
+            <h3>Dataset des vehicules</h3>
+            <p>L'objecif de ce demonstration est de vous montrer comment on entraine un modele de regression logistique pour</p>
+            <p>Les modeles entraines et sauvegardes de cette atelier vont etre utiliser pour faire des classification a base des donnees qui vont etre saisir par l'utilisateur de l'application via un formulaire une fois il clique sur le bouton "tester le modele"</p>
+        </div>
+        <div class="col-mb-6">
+            <img src="{% static 'images/camion.jpg' %}" width="40%" alt="">
+            <img src="{% static 'images/touristique.jpg' %}" width="40%" alt="">
+        </div>
+    </div>
+    <div>
+        <iframe src="{% static 'pdfs/course_demonstration.pdf' %}" width="100%" height="600px" style="border: 1px solid #ccc;">
+            Ce navigateur ne support pas PDFs. veuiller le telecharger
+        </iframe>
+        <a class="btn btn-success col-12 mt-2 mb-2" href="{% url 'reglog_tester' %}">Tester le modele</a>
+        <a href="{% static 'pdfs/course_demonstration.pdf' %}"> telecharger PDF</a>
+    </div>
+</div>
+
+{% include "includes/footer.html" %}
