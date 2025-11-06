@@ -9,4 +9,5 @@ urlpatterns = [
     path('regLog_atelier/', views.regLog_atelier, name="reglog_atelier"),
     path('reglog_tester/', views.regLog_tester, name='reglog_tester'),
     path('reglog_prediction', views.regLog_prediction, name='reglog_prediction'),
+    path('preds/', views.preds_list, name='preds_list'),
 ]

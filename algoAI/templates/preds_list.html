@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %} 
+    predictions list
+{% endblock title %}
+
+{% block content %}
+    <div>
+        <h1> predictions </h1>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Hauteur</th>
+                    <th>N Roues</th>
+                    <th>Pred value</th>
+                    <th>Type </th>
+                    <th>Created at</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pred in preds %}
+                <tr>
+                    <td>{{ pred.id }}</td>
+                    <td>{{ pred.hauteur }}</td>
+                    <td>{{ pred.n_roues }}</td>
+                    <td>{{ pred.pred_result }}</td>
+                    <td>
+                        {% if pred.pred_result == 0 %}
+                            Camion
+                        {% elif pred.pred_result == 1 %}
+                            Touristique
+                        {% endif %}
+                    </td>
+                    <td>{{ pred.created_at }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock content %}

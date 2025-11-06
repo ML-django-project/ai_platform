@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from .models import predHistory
 import os
 import joblib
 
@@ -62,3 +63,10 @@ def regLog_prediction(request):
         return render(request, 'reglog_results.html', context)
 
     return render(request, 'vehicles_form.html')
+
+def preds_list(request):
+    preds = predHistory.objects.all()
+    return render(request, 'preds_list.html', {"preds": preds, 'predname': {
+            '0': 'Camion',
+            '1': 'Touristique'
+        }})

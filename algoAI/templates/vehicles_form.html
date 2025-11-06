@@ -35,7 +35,8 @@
                     <input type="range" class="form-range" min="4" max="18" step="2" id="Nombre_de_roues" name="Nombre_de_roues" value="4" oninput="Nombre_de_rouesValue.value=this.value">
                     <span class="slider-value" id="Nombre_de_rouesValue">4</span>
                 </div>
-                <button type="submit" class="btn btn-primary col-12">Predict</button>    
+                <button type="submit" class="btn btn-primary col-12">Predict</button>
+                <a class="btn btn-success col-12 mt-2 mb-2" href="{% url 'preds_list' %}">My Prediction History</a>
             </form>
         </div>
     </div>
