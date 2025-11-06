@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import predHistory
+from django.utils import timezone
 import os
 import joblib
 
@@ -50,6 +51,14 @@ def regLog_prediction(request):
 
         pred_vehicule = type_vehicules[predicted_class]
         pred_img = img_url[pred_vehicule]
+
+        # save prediction to database
+        predHistory.objects.create(
+            hauteur = hauteur,
+            n_roues = nbr_roues,
+            pred_result = predicted_class,
+            #created_at = timezone.now()
+        )
 
         # Tâche 6: Préparer le Plateau-Repas (context)
         context = {

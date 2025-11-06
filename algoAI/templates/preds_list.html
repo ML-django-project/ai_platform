@@ -6,7 +6,7 @@
 {% endblock title %}
 
 {% block content %}
-    <div>
+    <div class="container">
         <h1> predictions </h1>
         <table class="table table-striped">
             <thead>
@@ -38,5 +38,6 @@
                 {% endfor %}
             </tbody>
         </table>
+        <a class="btn btn-success col-12 mt-2 mb-2" href="{% url 'reglog_tester' %}">Make new prediction</a>
     </div>
 {% endblock content %}
