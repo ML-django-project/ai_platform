@@ -1,5 +1,11 @@
-{% include "includes/header.html" %}
+{% extends "layout.html" %}
 {% load static %}
+
+{% block title %} 
+    Index 
+{% endblock title %}
+
+{% block content %}
 <div class="container">
 <div class="card mb-3">
 <div class="card-header">
@@ -24,4 +30,5 @@ Le type du vehicule predit base sur les caracteristiques suivantes : </p>
 </div>
 </div>
 </div>
-{% include "includes/footer.html" %}
+
+{% endblock content %}

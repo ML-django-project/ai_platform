@@ -1,7 +1,12 @@
-
+{% extends "layout.html" %}
 {% load static %}
-{% include "includes/header.html" %}
-<div class="container">
+
+{% block title %} 
+    Index 
+{% endblock title %}
+
+{% block content %}
+    <div class="container">
     <h2 class="mb-4">Les Algorithmes</h2>
     <div class="row row-cols-1 row-cols-md-3 g-4">
         <div class="col">
@@ -23,4 +28,4 @@
         </div>
     </div>
 </div>
-{% include "includes/footer.html" %}
+{% endblock content %}

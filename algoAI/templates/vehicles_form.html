@@ -1,5 +1,11 @@
-{% include "includes/header.html" %}
+{% extends "layout.html" %}
 {% load static %}
+
+{% block title %} 
+    Index 
+{% endblock title %}
+
+{% block content %}
 
 <script>
     document.addEventListener('DOMContentLoaded', function(){
@@ -34,5 +40,5 @@
         </div>
     </div>
 </div>
-{% include "includes/footer.html" %}
+{% endblock content %}
 
