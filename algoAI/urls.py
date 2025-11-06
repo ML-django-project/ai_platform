@@ -1,7 +1,10 @@
 from django.urls import path
 from . import views
+
+
 urlpatterns = [
     path('', views.index, name='index'),
+    path('about/', views.about, name='about'),
     path('regLog_details/', views.regLog_details, name='reglog_details'),
     path('regLog_atelier/', views.regLog_atelier, name="reglog_atelier"),
     path('reglog_tester/', views.regLog_tester, name='reglog_tester'),

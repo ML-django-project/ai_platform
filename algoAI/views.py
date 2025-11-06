@@ -6,6 +6,9 @@ import joblib
 def index(request):
     return render(request, 'index.html')
 
+def about(request):
+    return render(request, 'about.html')
+
 def regLog_details(request):
     return render(request, 'regLog_details.html')
 
@@ -25,7 +28,6 @@ def load_models(name):
 def regLog_prediction(request):
     # Tâche 1: Recevoir le Colis
     if request.method == 'POST':
-        print(request.POST)
 
         # Tâche 2: Déballer le Colis
         hauteur = float(request.POST.get('hauteur'))
