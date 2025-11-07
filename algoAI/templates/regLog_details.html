@@ -1,5 +1,12 @@
-{% include "includes/header.html" %}
+{% extends "layout.html" %}
 {% load static %}
+
+{% block title %} 
+    Index 
+{% endblock title %}
+
+{% block content %}
+
 <div class="container">
     <h2 class="mb-4">Algorithme de Regression Logistique</h2>
     <div class="row">
@@ -22,4 +29,4 @@
     <a href="{% static 'pdfs/chapitre5.pdf' %}"> telecharger PDF</a>
 </div>
 
-{% include "includes/footer.html" %}
+{% endblock content %}

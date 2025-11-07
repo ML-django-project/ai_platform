@@ -1,5 +1,11 @@
-{% include "includes/header.html" %}
+{% extends "layout.html" %}
 {% load static %}
+
+{% block title %} 
+    Index 
+{% endblock title %}
+
+{% block content %}
 <div class="container">
 <div class="card mb-3">
 <div class="card-header">
@@ -23,5 +29,8 @@ Le type du vehicule predit base sur les caracteristiques suivantes : </p>
 </div>
 </div>
 </div>
+<a class="btn btn-success col-12 mt-2 mb-2" href="{% url 'preds_list' %}">My Prediction History</a>
+<a class="btn btn-success col-12 mt-2 mb-2" href="{% url 'reglog_tester' %}">Make new prediction</a>
 </div>
-{% include "includes/footer.html" %}
+
+{% endblock content %}

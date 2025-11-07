@@ -1,10 +1,15 @@
 from django.shortcuts import render
+from .models import predHistory
+from django.utils import timezone
 import os
 import joblib
 
 # Create your views here.
 def index(request):
     return render(request, 'index.html')
+
+def about(request):
+    return render(request, 'about.html')
 
 def regLog_details(request):
     return render(request, 'regLog_details.html')
@@ -25,7 +30,6 @@ def load_models(name):
 def regLog_prediction(request):
     # Tâche 1: Recevoir le Colis
     if request.method == 'POST':
-        print(request.POST)
 
         # Tâche 2: Déballer le Colis
         hauteur = float(request.POST.get('hauteur'))
@@ -48,6 +52,14 @@ def regLog_prediction(request):
         pred_vehicule = type_vehicules[predicted_class]
         pred_img = img_url[pred_vehicule]
 
+        # save prediction to database
+        predHistory.objects.create(
+            hauteur = hauteur,
+            n_roues = nbr_roues,
+            pred_result = predicted_class,
+            #created_at = timezone.now()
+        )
+
         # Tâche 6: Préparer le Plateau-Repas (context)
         context = {
             'type_vehicule': pred_vehicule,
@@ -60,3 +72,10 @@ def regLog_prediction(request):
         return render(request, 'reglog_results.html', context)
 
     return render(request, 'vehicles_form.html')
+
+def preds_list(request):
+    preds = predHistory.objects.all()
+    return render(request, 'preds_list.html', {"preds": preds, 'predname': {
+            '0': 'Camion',
+            '1': 'Touristique'
+        }})
