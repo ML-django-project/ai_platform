@@ -16,6 +16,7 @@
                     <th>N Roues</th>
                     <th>Pred value</th>
                     <th>Type </th>
+                    <th>user</th>
                     <th>Created at</th>
                 </tr>
             </thead>
@@ -33,6 +34,7 @@
                             Touristique
                         {% endif %}
                     </td>
+                    <td>{{ pred.user.username }}</td>
                     <td>{{ pred.created_at }}</td>
                 </tr>
                 {% endfor %}

@@ -57,6 +57,7 @@ def regLog_prediction(request):
             hauteur = hauteur,
             n_roues = nbr_roues,
             pred_result = predicted_class,
+            user = request.user
             #created_at = timezone.now()
         )
 
@@ -74,8 +75,8 @@ def regLog_prediction(request):
     return render(request, 'vehicles_form.html')
 
 def preds_list(request):
-    preds = predHistory.objects.all()
-    return render(request, 'preds_list.html', {"preds": preds, 'predname': {
-            '0': 'Camion',
-            '1': 'Touristique'
-        }})
+    preds = predHistory.objects.filter(user=request.user)
+    context = {
+        'preds': preds,
+    }
+    return render(request, 'preds_list.html', context)

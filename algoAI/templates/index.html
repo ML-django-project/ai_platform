@@ -7,7 +7,31 @@
 
 {% block content %}
     <div class="container">
-    <h2 class="mb-4">Les Algorithmes</h2>
+
+        {% if not user.is_authenticated %}
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button class="btn btn-primary" type="button">
+                    <a class="nav-link active me-3" href="{% url 'users:login' %}">Log in</a>
+                </button>
+                <button class="btn btn-primary" type="button">
+                    <a class="nav-link active" href="{% url 'users:register' %}">Sign in</a>
+                </button>
+            </div>
+        {% endif %}
+
+        {% if user.is_authenticated %}
+                        <li class="nav-item d-flex align-items-center justify-content-between w-100 px-3">
+                            <span class="navbar-text me-auto">
+                                <h1> Welcome, {{ user.username }}! </h1>
+                            </span>
+                            <form action="{% url 'users:logout' %}" method="post" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary">Log out</button>
+                            </form>
+                        </li>
+                    {% endif %}
+
+   
     <div class="row row-cols-1 row-cols-md-3 g-4">
         <div class="col">
             <div class="card h-100">
