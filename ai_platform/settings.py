@@ -27,6 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+#for @login_required
+LOGIN_URL = '/users/login/'
 
 # Application definition
 

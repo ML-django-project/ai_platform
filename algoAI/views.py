@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .models import predHistory
 from django.utils import timezone
+from django.contrib.auth.decorators import login_required
 import os
 import joblib
 
@@ -27,6 +28,7 @@ def load_models(name):
     ml_model = joblib.load(model_path)
     return ml_model
 
+@login_required
 def regLog_prediction(request):
     # Tâche 1: Recevoir le Colis
     if request.method == 'POST':
@@ -74,6 +76,7 @@ def regLog_prediction(request):
 
     return render(request, 'vehicles_form.html')
 
+@login_required
 def preds_list(request):
     preds = predHistory.objects.filter(user=request.user)
     context = {
