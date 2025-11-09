@@ -13,13 +13,13 @@ def about(request):
     return render(request, 'about.html')
 
 def regLog_details(request):
-    return render(request, 'regLog_details.html')
+    return render(request, 'reglog/regLog_details.html')
 
 def regLog_atelier(request):
-    return render(request, 'regLog_atelier.html')
+    return render(request, 'reglog/regLog_atelier.html')
 
 def regLog_tester(request):
-    return render(request, 'vehicles_form.html')
+    return render(request, 'reglog/vehicles_form.html')
 
 def load_models(name):
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -72,9 +72,9 @@ def regLog_prediction(request):
                 'nbr_roues': nbr_roues
             }
         }
-        return render(request, 'reglog_results.html', context)
+        return render(request, 'reglog/reglog_results.html', context)
 
-    return render(request, 'vehicles_form.html')
+    return render(request, 'reglog/vehicles_form.html')
 
 @login_required
 def preds_list(request):
@@ -82,4 +82,4 @@ def preds_list(request):
     context = {
         'preds': preds,
     }
-    return render(request, 'preds_list.html', context)
+    return render(request, 'reglog/preds_list.html', context)
