@@ -1,0 +1,81 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %} 
+    {{ config.display_name }} - Tester
+{% endblock title %}
+
+{% block content %}
+<script>
+    document.addEventListener('DOMContentLoaded', function(){
+        {% for field in config.input_fields %}
+        {% if field.type == 'range' %}
+        const slider_{{ field.name }} = document.getElementById('{{ field.name }}');
+        const display_{{ field.name }} = document.getElementById('{{ field.name }}_value');
+        
+        if (slider_{{ field.name }} && display_{{ field.name }}) {
+            display_{{ field.name }}.textContent = slider_{{ field.name }}.value;
+            slider_{{ field.name }}.addEventListener('input', function() {
+                display_{{ field.name }}.textContent = this.value;
+            });
+        }
+        {% endif %}
+        {% endfor %}
+    });
+</script>
+
+<div class="container">
+    <h2 class="mb-4">{{ config.display_name }} - Formulaire de Prédiction</h2>
+    
+    <div class="card">
+        <div class="card-body">
+            <form method="post" action="{% url 'model_prediction' config.name %}" class="p-4">
+                {% csrf_token %}
+                
+                {% for field in config.input_fields %}
+                <div class="mb-4">
+                    <label for="{{ field.name }}" class="form-label">{{ field.label }}</label>
+                    
+                    {% if field.type == 'range' %}
+                    <input type="range" 
+                           class="form-range" 
+                           id="{{ field.name }}" 
+                           name="{{ field.name }}"
+                           min="{{ field.min }}" 
+                           max="{{ field.max }}" 
+                           step="{{ field.step }}" 
+                           value="{{ field.default }}">
+                    <span class="slider-value" id="{{ field.name }}_value">{{ field.default }}</span>
+                    
+                    {% elif field.type == 'number' %}
+                    <input type="number" 
+                           class="form-control" 
+                           id="{{ field.name }}" 
+                           name="{{ field.name }}"
+                           min="{{ field.min }}" 
+                           max="{{ field.max }}" 
+                           step="{{ field.step }}" 
+                           value="{{ field.default }}">
+                    
+                    {% elif field.type == 'text' %}
+                    <input type="text" 
+                           class="form-control" 
+                           id="{{ field.name }}" 
+                           name="{{ field.name }}"
+                           value="{{ field.default }}">
+                    {% endif %}
+                </div>
+                {% endfor %}
+                
+                <button type="submit" class="btn btn-primary col-12">Prédire</button>
+                
+                {% if user.is_authenticated %}
+                <a class="btn btn-outline-secondary col-12 mt-2" href="{% url 'model_predictions_list' config.name %}">
+                    Voir mon historique pour ce modèle
+                </a>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}

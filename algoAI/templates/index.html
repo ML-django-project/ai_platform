@@ -2,54 +2,60 @@
 {% load static %}
 
 {% block title %} 
-    Index 
+    AI Platform - Accueil
 {% endblock title %}
 
 {% block content %}
     <div class="container">
-
         {% if not user.is_authenticated %}
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                 <button class="btn btn-primary" type="button">
                     <a class="nav-link active me-3" href="{% url 'users:login' %}">Log in</a>
                 </button>
                 <button class="btn btn-primary" type="button">
-                    <a class="nav-link active" href="{% url 'users:register' %}">Sign in</a>
+                    <a class="nav-link active" href="{% url 'users:register' %}">Sign up</a>
                 </button>
             </div>
         {% endif %}
 
         {% if user.is_authenticated %}
-                        <li class="nav-item d-flex align-items-center justify-content-between w-100 px-3">
-                            <span class="navbar-text me-auto">
-                                <h1> Welcome, {{ user.username }}! </h1>
-                            </span>
-                            <form action="{% url 'users:logout' %}" method="post" class="d-inline">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-primary">Log out</button>
-                            </form>
-                        </li>
-                    {% endif %}
+            <div class="d-flex align-items-center justify-content-between w-100 px-3 mb-4">
+                <h1>Bienvenue, {{ user.username }}!</h1>
+                <form action="{% url 'users:logout' %}" method="post" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary">Log out</button>
+                </form>
+            </div>
+        {% endif %}
 
+        <h2 class="mb-4">Algorithmes d'Apprentissage Automatique</h2>
    
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-        <div class="col">
-            <div class="card h-100">
-                <h5 class="card-header">Algorithme Régression Logistique</h5>
-                <div class="card-body">
-                    <img src="{% static 'images/regression_logistique.jpg' %}" class="card-img-top" alt="Régression Logistique">
-                    <div class="card-text mt-3">
-                        <p>
-                            L'algorithme Régression Logistique est un algorithme d'apprentissage suppervisé de classification
-                        </p>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for model_name, config in ml_models.items %}
+            <div class="col">
+                <div class="card h-100">
+                    <h5 class="card-header">{{ config.display_name }}</h5>
+                    <div class="card-body">
+                        <img src="{% static config.image_path %}" class="card-img-top" alt="{{ config.display_name }}">
+                        <div class="card-text mt-3">
+                            <p>{{ config.description }}</p>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a class="btn btn-info col-12 mt-2" href="{% url 'model_details' model_name %}">Plus de détails</a>
+                        <a class="btn btn-success col-12 mt-2" href="{% url 'model_atelier' model_name %}">Exemple pratique</a>
+                        <a class="btn btn-primary col-12 mt-2" href="{% url 'model_tester' model_name %}">Tester le modèle</a>
                     </div>
                 </div>
-                <div class="card-footer center">
-                    <a class="btn btn-info col-12 mt-2" href="{% url 'reglog_details' %}">Plus détails</a>
-                    <a class="btn btn-success col-12 mt-2" href="{% url 'reglog_atelier' %}">Exemple de Classification</a>
-                </div>
             </div>
+            {% endfor %}
         </div>
+
+        {% if user.is_authenticated %}
+        <div class="mt-5">
+            <h3>Mes Prédictions</h3>
+            <a class="btn btn-outline-primary mt-2" href="{% url 'predictions_list' %}">Voir toutes mes prédictions</a>
+        </div>
+        {% endif %}
     </div>
-</div>
 {% endblock content %}

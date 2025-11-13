@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %} 
+    {{ config.display_name }} - Détails
+{% endblock title %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4">{{ config.display_name }}</h2>
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Description:</h3>
+            <p>{{ config.description }}</p>
+        </div>
+        <div class="col-md-6">
+            <img src="{% static config.image_path %}" class="img-fluid rounded" alt="{{ config.display_name }}">
+        </div>
+    </div>
+
+    {% if config.detail_pdf %}
+    <div class="mt-4">
+        <h3>Documentation Complète</h3>
+        <iframe src="{% static config.detail_pdf %}" width="100%" height="600px" style="border:1px solid #ccc;">
+            Ce navigateur ne supporte pas les PDFs. Veuillez le télécharger.
+        </iframe>
+        <a href="{% static config.detail_pdf %}" class="btn btn-primary mt-2">Télécharger PDF</a>
+    </div>
+    {% endif %}
+
+    <div class="mt-4">
+        <a class="btn btn-success" href="{% url 'model_atelier' config.name %}">Voir l'atelier pratique</a>
+        <a class="btn btn-primary" href="{% url 'model_tester' config.name %}">Tester le modèle</a>
+    </div>
+</div>
+{% endblock content %}
