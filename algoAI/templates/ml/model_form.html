@@ -33,7 +33,7 @@
                 {% csrf_token %}
                 
                 {% for field in config.input_fields %}
-                <div class="mb-4">
+                <div class="mb-4" style="overflow-y: auto;">
                     <label for="{{ field.name }}" class="form-label">{{ field.label }}</label>
                     
                     {% if field.type == 'range' %}
@@ -63,6 +63,37 @@
                            id="{{ field.name }}" 
                            name="{{ field.name }}"
                            value="{{ field.default }}">
+                           
+                    {% elif field.type == 'select' %}
+                    <!-- Select Dropdown -->
+                    <select class="form-select" 
+                            id="{{ field.name }}" 
+                            name="{{ field.name }}">
+                        {% for option in field.options %}
+                        <option value="{{ option.value }}" 
+                                {% if option.value == field.default %}selected{% endif %}>
+                            {{ option.label }}
+                        </option>
+                        {% endfor %}
+                    </select>
+
+                    {% elif field.type == 'radio' %}
+                        <!-- Radio Buttons -->
+                        <div class="radio-group">
+                            {% for option in field.options %}
+                            <div class="form-check">
+                                <input class="form-check-input" 
+                                    type="radio" 
+                                    name="{{ field.name }}" 
+                                    id="{{ field.name }}_{{ option.value }}" 
+                                    value="{{ option.value }}"
+                                    {% if option.value == field.default %}checked{% endif %}>
+                                <label class="form-check-label" for="{{ field.name }}_{{ option.value }}">
+                                    {{ option.label }}
+                                </label>
+                            </div>
+                            {% endfor %}
+                        </div>
                     {% endif %}
                 </div>
                 {% endfor %}
