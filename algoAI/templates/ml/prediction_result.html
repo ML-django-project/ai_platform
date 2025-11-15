@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %} 
+    Résultat de Prédiction
+{% endblock title %}
+
+{% block content %}
+<div class="container">
+    <div class="card mb-3">
+        <div class="card-header">
+            <strong>Résultat de Classification - {{ config.display_name }}</strong>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5 class="card-title">
+                        Type prédit: 
+                        <span class="badge {{ result.badge_class }}">{{ result.label }}</span>
+                    </h5>
+                    <img src="{% static result.image %}" class="img-thumbnail card-img-top" style="max-width: 350px" alt="{{ result.label }}">
+                </div>
+                <div class="col-md-6">
+                    <p class="card-text">
+                        Le résultat de la prédiction est basé sur les caractéristiques suivantes:
+                    </p>
+                    {% for key, value in input_data.items %}
+                    <div><strong>{{ key }}:</strong> {{ value }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <a class="btn btn-success col-12 col-md-6 mt-2 mb-2" href="{% url 'model_predictions_list' model_name %}">
+        Mon Historique pour {{ config.display_name }}
+    </a>
+    <a class="btn btn-primary col-12 col-md-6 mt-2 mb-2" href="{% url 'model_tester' model_name %}">
+        Faire une nouvelle prédiction
+    </a>
+</div>
+{% endblock content %}

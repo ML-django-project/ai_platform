@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %} 
+    Erreur
+{% endblock title %}
+
+{% block content %}
+<div class="container">
+    <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">Une erreur s'est produite</h4>
+        <p>{{ error }}</p>
+        <hr>
+        <p class="mb-0">Veuillez vérifier votre configuration et réessayer.</p>
+    </div>
+    
+    <div class="mt-4">
+        <a href="{% url 'index' %}" class="btn btn-primary">Retour à l'accueil</a>
+        <a href="javascript:history.back()" class="btn btn-secondary">Retour</a>
+    </div>
+</div>
+{% endblock content %}
