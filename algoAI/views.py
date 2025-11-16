@@ -12,8 +12,14 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.enums import TA_CENTER
 
 from .ml_configs import ML_CONFIGS
-from .utils import load_ml_model, get_model_config, prepare_input_features, interpret_prediction
-
+from .utils import (
+    get_model_config, 
+    prepare_input_features, 
+    make_prediction,
+    interpret_prediction,
+    validate_model_files,
+    get_model_info
+)
 import os
 import joblib
 
@@ -56,14 +62,13 @@ def model_prediction(request, model_name):
     try:
         # Prepare input features
         features, input_dict = prepare_input_features(model_name, request.POST)
-        
-        # Load and use model
-        model = load_ml_model(model_name)
-        prediction = model.predict([features])
-        predicted_class = prediction[0]
-        
+
+        # Make prediction
+        predicted_class = make_prediction(model_name, features)
+
         # Interpret result
         result = interpret_prediction(model_name, predicted_class)
+        
         
         # Get or create MLModel instance
         ml_model_instance, _ = MLModel.objects.get_or_create(
@@ -83,7 +88,8 @@ def model_prediction(request, model_name):
             input_data=input_dict,
             prediction_result={
                 'class': int(predicted_class),
-                'label': result['label']
+                'label': result['label'],
+                'description': result.get('description', '')
             }
         )
         
@@ -91,7 +97,8 @@ def model_prediction(request, model_name):
             'config': config,
             'result': result,
             'input_data': input_dict,
-            'model_name': model_name
+            'model_name': model_name,
+            'predicted_class': predicted_class
         }
         
         return render(request, 'ml/prediction_result.html', context)

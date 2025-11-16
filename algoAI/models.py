@@ -21,9 +21,11 @@ class MLModel(models.Model):
     display_name = models.CharField(max_length=200)
     description = models.TextField()
     model_file = models.CharField(max_length=200)  # filename in models_ai folder
+    scaler_file = models.CharField(max_length=200, blank=True, null=True)  # NEW: scaler filename
     image_path = models.CharField(max_length=200)  # path to card image
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)  # NEW: track updates
     
     def __str__(self):
         return self.display_name
