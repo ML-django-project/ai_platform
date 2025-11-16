@@ -419,6 +419,223 @@ ML_CONFIGS = {
                 'description': 'ATTENTION: Ce champignon est vénéneux! Ne pas consommer.'
             }
         }
+    },
+#******************************************************************************
+    'heart_disease': {
+        'name': 'heart_disease',
+        'display_name': 'Heart Disease Risk Prediction',
+        'description': "Machine learning model to predict heart disease risk based on health parameters and lifestyle factors",
+        'model_file': 'LogisticRegression.pkl',
+        'scaler_file' : 'ScalerLogisticRegression.pkl',
+        'image_path': 'images/heart_disease.jpg',
+        'detail_pdf': 'pdfs/heart_disease_guide.pdf',
+        'demo_pdf': 'pdfs/heart_disease_demo.pdf',
+        'input_fields': [
+            {
+                'name': 'Age',
+                'label': 'Age (years)',
+                'type': 'number',
+                'min': 18,
+                'max': 100,
+                'step': 1,
+                'default': 45
+            },
+            {
+                'name': 'Gender',
+                'label': 'Gender',
+                'type': 'select',
+                'options': [
+                    {'value': 0, 'label': 'Female'},
+                    {'value': 1, 'label': 'Male'}
+                ],
+                'default': 0
+            },
+            {
+                'name': 'Weight',
+                'label': 'Weight (kg)',
+                'type': 'number',
+                'min': 30,
+                'max': 200,
+                'step': 1,
+                'default': 70
+            },
+            {
+                'name': 'Height',
+                'label': 'Height (cm)',
+                'type': 'number',
+                'min': 100,
+                'max': 220,
+                'step': 1,
+                'default': 170
+            },
+            {
+                'name': 'BMI',
+                'label': 'BMI (Body Mass Index)',
+                'type': 'number',
+                'min': 15,
+                'max': 50,
+                'step': 0.1,
+                'default': 24.2
+            },
+            {
+                'name': 'Smoking',
+                'label': 'Smoking Status',
+                'type': 'select',
+                'options': [
+                    {'value': 0, 'label': 'Current Smoker'},
+                    {'value': 1, 'label': 'Former Smoker'},
+                    {'value': 2, 'label': 'Never Smoked'}
+                ],
+                'default': 2
+            },
+            {
+                'name': 'Physical_Activity',
+                'label': 'Physical Activity Level',
+                'type': 'select',
+                'options': [
+                    {'value': 0, 'label': 'Active'},
+                    {'value': 1, 'label': 'Moderate'},
+                    {'value': 2, 'label': 'Sedentary'}
+                ],
+                'default': 1
+            },
+            {
+                'name': 'Diet',
+                'label': 'Diet Quality',
+                'type': 'select',
+                'options': [
+                    {'value': 0, 'label': 'Average'},
+                    {'value': 1, 'label': 'Healthy'},
+                    {'value': 2, 'label': 'Unhealthy'}
+                ],
+                'default': 1
+            },
+            {
+                'name': 'Stress_Level',
+                'label': 'Stress Level',
+                'type': 'select',
+                'options': [
+                    {'value': 0, 'label': 'High'},
+                    {'value': 1, 'label': 'Low'},
+                    {'value': 2, 'label': 'Medium'}
+                ],
+                'default': 1
+            },
+            {
+                'name': 'Hypertension',
+                'label': 'Hypertension',
+                'type': 'select',
+                'options': [
+                    {'value': 0, 'label': 'No'},
+                    {'value': 1, 'label': 'Yes'}
+                ],
+                'default': 0
+            },
+            {
+                'name': 'Diabetes',
+                'label': 'Diabetes',
+                'type': 'select',
+                'options': [
+                    {'value': 0, 'label': 'No'},
+                    {'value': 1, 'label': 'Yes'}
+                ],
+                'default': 0
+            },
+            {
+                'name': 'Hyperlipidemia',
+                'label': 'Hyperlipidemia (High Cholesterol)',
+                'type': 'select',
+                'options': [
+                    {'value': 0, 'label': 'No'},
+                    {'value': 1, 'label': 'Yes'}
+                ],
+                'default': 0
+            },
+            {
+                'name': 'Family_History',
+                'label': 'Family History of Heart Disease',
+                'type': 'select',
+                'options': [
+                    {'value': 0, 'label': 'No'},
+                    {'value': 1, 'label': 'Yes'}
+                ],
+                'default': 0
+            },
+            {
+                'name': 'Previous_Heart_Attack',
+                'label': 'Previous Heart Attack',
+                'type': 'select',
+                'options': [
+                    {'value': 0, 'label': 'No'},
+                    {'value': 1, 'label': 'Yes'}
+                ],
+                'default': 0
+            },
+            {
+                'name': 'Systolic_BP',
+                'label': 'Systolic Blood Pressure (mmHg)',
+                'type': 'number',
+                'min': 80,
+                'max': 200,
+                'step': 1,
+                'default': 120
+            },
+            {
+                'name': 'Diastolic_BP',
+                'label': 'Diastolic Blood Pressure (mmHg)',
+                'type': 'number',
+                'min': 50,
+                'max': 130,
+                'step': 1,
+                'default': 80
+            },
+            {
+                'name': 'Heart_Rate',
+                'label': 'Heart Rate (bpm)',
+                'type': 'number',
+                'min': 40,
+                'max': 150,
+                'step': 1,
+                'default': 72
+            },
+            {
+                'name': 'Blood_Sugar_Fasting',
+                'label': 'Fasting Blood Sugar (mg/dL)',
+                'type': 'number',
+                'min': 60,
+                'max': 300,
+                'step': 1,
+                'default': 95
+            },
+            {
+                'name': 'Cholesterol_Total',
+                'label': 'Total Cholesterol (mg/dL)',
+                'type': 'number',
+                'min': 100,
+                'max': 400,
+                'step': 1,
+                'default': 200
+            }
+        ],
+        'output_classes': {
+            0: {
+                'label': '🟢 LOW RISK',
+                'image': 'images/low_risk_heart.jpg',
+                'badge_class': 'bg-success',
+                'description': 'Low risk of heart disease. Maintain healthy lifestyle!'
+            },
+            1: {
+                'label': '🟡 MODERATE RISK',
+                'image': 'images/moderate_risk_heart.jpg',
+                'badge_class': 'bg-warning',
+                'description': 'Moderate risk of heart disease. Consider lifestyle improvements.'
+            },
+            2: {
+                'label': '🔴 HIGH RISK',
+                'image': 'images/high_risk_heart.jpg',
+                'badge_class': 'bg-danger',
+                'description': 'High risk of heart disease. Please consult a healthcare professional.'
+            }
+        }
     }
 }
-#******************************************************************************
