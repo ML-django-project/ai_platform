@@ -488,6 +488,17 @@ ML_CONFIGS = {
                 ],
                 'default': 2
             },
+                        {
+                'name': 'Alcohol_Intake',
+                'label': 'Alcohol Intake',
+                'type': 'select',
+                'options': [
+                    {'value': 0, 'label': 'High'},
+                    {'value': 1, 'label': 'Low'},
+                    {'value': 2, 'label': 'Moderate'}
+                ],
+                'default': 1
+            },
             {
                 'name': 'Physical_Activity',
                 'label': 'Physical Activity Level',
