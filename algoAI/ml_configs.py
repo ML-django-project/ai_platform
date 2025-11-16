@@ -5,6 +5,7 @@ ML_CONFIGS = {
         'display_name': 'Régression Logistique',
         'description': "Algorithme d'apprentissage supervisé de classification",
         'model_file': 'logistic_regression_sklearn.pkl',
+        'scaler_file' : None,
         'image_path': 'images/regression_logistique.jpg',
         'detail_pdf': 'pdfs/chapitre5.pdf',
         'demo_pdf': 'pdfs/course_demonstration.pdf',
@@ -47,6 +48,7 @@ ML_CONFIGS = {
         'display_name': 'Decision Tree',
         'description': "Algorithme d'apprentissage supervisé de classification",
         'model_file': 'decision_tree.pkl',
+        'scaler_file' : None,
         'image_path': 'images/regression_logistique.jpg',
         'detail_pdf': 'pdfs/chapitre5.pdf',
         'demo_pdf': 'pdfs/course_demonstration.pdf',
@@ -95,6 +97,7 @@ ML_CONFIGS = {
         'display_name': 'Classification des Champignons',
         'description': "Algorithme de classification pour identifier les champignons comestibles ou vénéneux basé sur l'ensemble de données UCI Mushroom",
         'model_file': 'mushroom_classifier.pkl',
+        'scaler_file' : None,
         'image_path': 'images/mushrooms/mushroom.jpg',
         'detail_pdf': 'pdfs/Mushroom_Classification.pdf',
         'demo_pdf': 'pdfs/Mushroom_Classification.pdf',
@@ -418,3 +421,4 @@ ML_CONFIGS = {
         }
     }
 }
+#******************************************************************************
