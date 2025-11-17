@@ -43,53 +43,7 @@ ML_CONFIGS = {
         }
     },
 #************************************************************************************************************
-    'decision_tree': {
-        'name': 'decision_tree',
-        'display_name': 'Decision Tree',
-        'description': "Algorithme d'apprentissage supervisé de classification",
-        'model_file': 'decision_tree.pkl',
-        'scaler_file' : None,
-        'image_path': 'images/regression_logistique.jpg',
-        'detail_pdf': 'pdfs/chapitre5.pdf',
-        'demo_pdf': 'pdfs/course_demonstration.pdf',
-        'input_fields': [
-            {
-                'name': 'sepal_length',
-                'label': 'sepal length (cm)',
-                'type': 'range',
-                'min': 2,
-                'max': 5.5,
-                'step': 0.1,
-                'default': 3
-            },
-            {
-                'name': 'sepal_width',
-                'label': 'sepal width (cm)',
-                'type': 'range',
-                'min': 4,
-                'max': 18,
-                'step': 2,
-                'default': 4
-            }
-        ],
-        'output_classes': {
-            0: {
-                'label': 'setosa',
-                'image': 'images/camion.jpg',
-                'badge_class': 'bg-primary'
-            },
-            1: {
-                'label': 'versicolor',
-                'image': 'images/touristique.jpg',
-                'badge_class': 'bg-success'
-            },
-            2: {
-                'label': 'versicolor',
-                'image': 'images/touristique.jpg',
-                'badge_class': 'bg-success'
-            }
-        }
-    },
+    
 #**********************************************************************************************
         #edible=e, poisonous=p
     'mushroom_classification': {
@@ -427,9 +381,9 @@ ML_CONFIGS = {
         'description': "Machine learning model to predict heart disease risk based on health parameters and lifestyle factors",
         'model_file': 'LogisticRegression.pkl',
         'scaler_file' : 'ScalerLogisticRegression.pkl',
-        'image_path': 'images/heart_disease.jpg',
-        'detail_pdf': 'pdfs/heart_disease_guide.pdf',
-        'demo_pdf': 'pdfs/heart_disease_demo.pdf',
+        'image_path': 'images/logistic_regression/logistic_regresion_image.jpeg',
+        'detail_pdf': 'pdfs/logistic_regresssion_guide.pdf',
+        'demo_pdf': 'pdfs/logistic_regresssion_demo.pdf',
         'input_fields': [
             {
                 'name': 'Age',
@@ -631,19 +585,19 @@ ML_CONFIGS = {
         'output_classes': {
             0: {
                 'label': '🟢 LOW RISK',
-                'image': 'images/low_risk_heart.jpg',
+                'image': 'images/logistic_regression/low_risk.jpeg',
                 'badge_class': 'bg-success',
                 'description': 'Low risk of heart disease. Maintain healthy lifestyle!'
             },
             1: {
-                'label': '🟡 MODERATE RISK',
-                'image': 'images/moderate_risk_heart.jpg',
+                'label': '🟡 MODERATE RISK.jpeg',
+                'image': 'images/logistic_regression/moderate_risk.jpeg',
                 'badge_class': 'bg-warning',
                 'description': 'Moderate risk of heart disease. Consider lifestyle improvements.'
             },
             2: {
                 'label': '🔴 HIGH RISK',
-                'image': 'images/high_risk_heart.jpg',
+                'image': 'images/logistic_regression/high_risk.jpeg',
                 'badge_class': 'bg-danger',
                 'description': 'High risk of heart disease. Please consult a healthcare professional.'
             }
