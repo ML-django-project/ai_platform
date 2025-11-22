@@ -1,82 +1,3 @@
-def create_model(name, display_name, description, model_file, image_path, 
-                 field_keys, output_class_key, scaler_file=None, 
-                 detail_pdf=None, demo_pdf=None):
-    return {
-        'name': name,
-        'display_name': display_name,
-        'description': description,
-        'model_file': model_file,
-        'scaler_file': scaler_file,
-        'image_path': image_path,
-        'detail_pdf': detail_pdf,
-        'demo_pdf': demo_pdf,
-        'input_fields': [FIELDS[key] for key in field_keys],
-        'output_classes': OUTPUT_CLASSES[output_class_key]
-    }
-
-ML_CONFIGS = {
-    # Mushroom Classification - Random Forest
-    'mushroom_classification': create_model(
-        name='mushroom_classification',
-        display_name='Classification des Champignons - Random Forest',
-        description="Algorithme de classification pour identifier les champignons comestibles ou vénéneux",
-        model_file='mushroom_classifier.pkl',
-        image_path='images/mushrooms/mushroom.jpg',
-        field_keys=[
-            'cap_shape', 'cap_surface', 'cap_color', 'bruises', 'odor',
-            'gill_attachment', 'gill_spacing', 'gill_size', 'gill_color',
-            'stalk_shape', 'stalk_root', 'stalk_surface_above_ring',
-            'stalk_surface_below_ring', 'stalk_color_above_ring',
-            'stalk_color_below_ring', 'veil_type', 'veil_color',
-            'ring_number', 'ring_type', 'spore_print_color',
-            'population', 'habitat'
-        ],
-        output_class_key='mushroom',
-        detail_pdf='pdfs/Mushroom_Classification.pdf',
-        demo_pdf='pdfs/Mushroom_Classification.pdf'
-    ),
-
-    # Heart Disease - Logistic Regression
-    'logistic_regression': create_model(
-        name='logistic_regression',
-        display_name='Heart Disease Risk Prediction - Logistic Regression',
-        description="Machine learning model to predict heart disease risk",
-        model_file='LogisticRegression.pkl',
-        image_path='images/logistic_regression/logistic_regresion_image.jpeg',
-        field_keys=[
-            'Age', 'Gender', 'Weight', 'Height', 'BMI', 'Smoking',
-            'Alcohol_Intake', 'Physical_Activity', 'Diet', 'Stress_Level',
-            'Hypertension', 'Diabetes', 'Hyperlipidemia', 'Family_History',
-            'Previous_Heart_Attack', 'Systolic_BP', 'Diastolic_BP',
-            'Heart_Rate', 'Blood_Sugar_Fasting', 'Cholesterol_Total'
-        ],
-        output_class_key='heart_risk',
-        scaler_file='ScalerLogisticRegression.pkl',
-        detail_pdf= 'pdfs/logistic_regresssion_guide.pdf',
-        demo_pdf=  'pdfs/logistic_regresssion_demo.pdf',
-    ),
-    # Random Forest - classification
-    'Random_Forest_classification': create_model(
-        name='Random_Forest_classification',
-        display_name='Heart Disease Risk Prediction - Random Forest Classification',
-        description="Machine learning model to predict heart disease risk",
-        model_file='RF_classification.pkl',
-        image_path='images/random_forst.png',
-        field_keys=[
-            'Age', 'Gender', 'Weight', 'Height', 'BMI', 'Smoking',
-            'Alcohol_Intake', 'Physical_Activity', 'Diet', 'Stress_Level',
-            'Hypertension', 'Diabetes', 'Hyperlipidemia', 'Family_History',
-            'Previous_Heart_Attack', 'Systolic_BP', 'Diastolic_BP',
-            'Heart_Rate', 'Blood_Sugar_Fasting', 'Cholesterol_Total'
-        ],
-        output_class_key='heart_risk',
-        scaler_file='Scaler_RF_Regression.pkl',
-        detail_pdf= 'pdfs/logistic_regresssion_guide.pdf',
-        demo_pdf=  'pdfs/logistic_regresssion_demo.pdf',
-    ),
-
-}
-
 FIELDS = {
     ################## Vehicle fields #########################
     'hauteur': {
@@ -600,10 +521,9 @@ FIELDS = {
         'default': 200
     }
 }
-
-####################################################################################################
-############################################################################################################
-##################################################################################################
+############################################################################################################################
+#######################################################################################################
+#######################################################################################
 OUTPUT_CLASSES = {
     'mushroom': {
         0: {
@@ -645,3 +565,89 @@ OUTPUT_CLASSES = {
 #######################################################################################################
 ###################################################################################################
 ###########################################################################################
+
+
+
+def create_model(name, display_name, description, model_file, image_path, 
+                 field_keys, output_class_key, scaler_file=None, 
+                 detail_pdf=None, demo_pdf=None):
+    return {
+        'name': name,
+        'display_name': display_name,
+        'description': description,
+        'model_file': model_file,
+        'scaler_file': scaler_file,
+        'image_path': image_path,
+        'detail_pdf': detail_pdf,
+        'demo_pdf': demo_pdf,
+        'input_fields': [FIELDS[key] for key in field_keys],
+        'output_classes': OUTPUT_CLASSES[output_class_key]
+    }
+
+ML_CONFIGS = {
+    # Mushroom Classification - Random Forest
+    'mushroom_classification': create_model(
+        name='mushroom_classification',
+        display_name='Classification des Champignons - Random Forest',
+        description="Algorithme de classification pour identifier les champignons comestibles ou vénéneux",
+        model_file='mushroom_classifier.pkl',
+        image_path='images/mushrooms/mushroom.jpg',
+        field_keys=[
+            'cap_shape', 'cap_surface', 'cap_color', 'bruises', 'odor',
+            'gill_attachment', 'gill_spacing', 'gill_size', 'gill_color',
+            'stalk_shape', 'stalk_root', 'stalk_surface_above_ring',
+            'stalk_surface_below_ring', 'stalk_color_above_ring',
+            'stalk_color_below_ring', 'veil_type', 'veil_color',
+            'ring_number', 'ring_type', 'spore_print_color',
+            'population', 'habitat'
+        ],
+        output_class_key='mushroom',
+        detail_pdf='pdfs/Mushroom_Classification.pdf',
+        demo_pdf='pdfs/Mushroom_Classification.pdf'
+    ),
+
+    # Heart Disease - Logistic Regression
+    'logistic_regression': create_model(
+        name='logistic_regression',
+        display_name='Heart Disease Risk Prediction - Logistic Regression',
+        description="Machine learning model to predict heart disease risk",
+        model_file='LogisticRegression.pkl',
+        image_path='images/logistic_regression/logistic_regresion_image.jpeg',
+        field_keys=[
+            'Age', 'Gender', 'Weight', 'Height', 'BMI', 'Smoking',
+            'Alcohol_Intake', 'Physical_Activity', 'Diet', 'Stress_Level',
+            'Hypertension', 'Diabetes', 'Hyperlipidemia', 'Family_History',
+            'Previous_Heart_Attack', 'Systolic_BP', 'Diastolic_BP',
+            'Heart_Rate', 'Blood_Sugar_Fasting', 'Cholesterol_Total'
+        ],
+        output_class_key='heart_risk',
+        scaler_file='ScalerLogisticRegression.pkl',
+        detail_pdf= 'pdfs/logistic_regresssion_guide.pdf',
+        demo_pdf=  'pdfs/logistic_regresssion_demo.pdf',
+    ),
+    # Random Forest - classification
+    'Random_Forest_classification': create_model(
+        name='Random_Forest_classification',
+        display_name='Heart Disease Risk Prediction - Random Forest Classification',
+        description="Machine learning model to predict heart disease risk",
+        model_file='RF_classification.pkl',
+        image_path='images/random_forest.png',
+        field_keys=[
+            'Age', 'Gender', 'Weight', 'Height', 'BMI', 'Smoking',
+            'Alcohol_Intake', 'Physical_Activity', 'Diet', 'Stress_Level',
+            'Hypertension', 'Diabetes', 'Hyperlipidemia', 'Family_History',
+            'Previous_Heart_Attack', 'Systolic_BP', 'Diastolic_BP',
+            'Heart_Rate', 'Blood_Sugar_Fasting', 'Cholesterol_Total'
+        ],
+        output_class_key='heart_risk',
+        scaler_file='Scaler_RF_Regression.pkl',
+        detail_pdf= 'pdfs/logistic_regresssion_guide.pdf',
+        demo_pdf=  'pdfs/logistic_regresssion_demo.pdf',
+    ),
+
+}
+
+
+####################################################################################################
+############################################################################################################
+##################################################################################################

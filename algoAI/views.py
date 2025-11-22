@@ -53,8 +53,12 @@ def model_tester(request, model_name):
 def model_overview(request, model_name):
     config = get_model_config(model_name)
     if not config:
+        print(f"DEBUG model_overview: config { model_name } not found")
+        print(f"DEBUG model_overview: redirect to index")
         return redirect('index')
     
+    print(f"config found for {model_name}")
+
     context = {
         'config': config,
         'model_name': model_name
