@@ -2,7 +2,7 @@
 import os
 import joblib
 from django.conf import settings
-from .ml_configs import ML_CONFIGS
+from .old_ml_configs import ML_CONFIGS
 
 def load_ml_model(model_name):
     if model_name not in ML_CONFIGS:
@@ -80,6 +80,32 @@ def interpret_prediction(model_name, prediction_value):
         return config['output_classes'][prediction_class]
     
     return None
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 def get_model_info(model_name):
     """

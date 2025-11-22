@@ -11,7 +11,7 @@ from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, 
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.enums import TA_CENTER
 
-from .ml_configs import ML_CONFIGS
+from .old_ml_configs import ML_CONFIGS
 from .utils import (
     get_model_config, 
     prepare_input_features, 
@@ -45,6 +45,25 @@ def model_atelier(request, model_name):
 
 def model_tester(request, model_name):
     #model input form
+    config = get_model_config(model_name)
+    if not config:
+        return redirect('index')
+    return render(request, 'ml/model_form.html', {'config': config})
+
+def model_overview(request, model_name):
+    config = get_model_config(model_name)
+    if not config:
+        return redirect('index')
+    
+    context = {
+        'config': config,
+        'model_name': model_name
+    }
+    
+    return render(request, 'ml/model_overview.html', context)
+
+
+def model_form(request, model_name):
     config = get_model_config(model_name)
     if not config:
         return redirect('index')
@@ -108,7 +127,7 @@ def model_prediction(request, model_name):
 
 @login_required
 def predictions_list(request, model_name=None):
-    """List predictions, optionally filtered by model"""
+    """List predictions, filtered by model"""
     predictions = Prediction.objects.filter(user=request.user)
     
     if model_name:
