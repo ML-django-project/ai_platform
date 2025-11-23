@@ -50,65 +50,34 @@ def model_tester(request, model_name):
         return redirect('index')
     return render(request, 'ml/model_form.html', {'config': config})
 
-@login_required
-def model_prediction(request, model_name):
-    if request.method != 'POST':
-        return redirect('model_tester', model_name=model_name)
+def model_overview(request, model_name):
+    config = get_model_config(model_name)
+    if not config:
+        print(f"DEBUG model_overview: config { model_name } not found")
+        print(f"DEBUG model_overview: redirect to index")
+        return redirect('index')
     
+    print(f"config found for {model_name}")
+
+    context = {
+        'config': config,
+        'model_name': model_name
+    }
+    
+    return render(request, 'ml/model_overview.html', context)
+
+
+def model_form(request, model_name):
     config = get_model_config(model_name)
     if not config:
         return redirect('index')
-    
-    try:
-        # Prepare input features
-        features, input_dict = prepare_input_features(model_name, request.POST)
+    return render(request, 'ml/model_form.html', {'config': config})
 
-        # Make prediction
-        predicted_class = make_prediction(model_name, features)
 
-        # Interpret result
-        result = interpret_prediction(model_name, predicted_class)
-        
-        
-        # Get or create MLModel instance
-        ml_model_instance, _ = MLModel.objects.get_or_create(
-            name=model_name,
-            defaults={
-                'display_name': config['display_name'],
-                'description': config['description'],
-                'model_file': config['model_file'],
-                'image_path': config['image_path']
-            }
-        )
-        
-        # Save prediction
-        Prediction.objects.create(
-            user=request.user,
-            ml_model=ml_model_instance,
-            input_data=input_dict,
-            prediction_result={
-                'class': int(predicted_class),
-                'label': result['label'],
-                'description': result.get('description', '')
-            }
-        )
-        
-        context = {
-            'config': config,
-            'result': result,
-            'input_data': input_dict,
-            'model_name': model_name,
-            'predicted_class': predicted_class
-        }
-        
-        return render(request, 'ml/prediction_result.html', context)
-    
-    except Exception as e:
-        return render(request, 'ml/error.html', {'error': str(e)})
 
 @login_required
 def predictions_list(request, model_name=None):
-    """List predictions, optionally filtered by model"""
+    """List predictions, filtered by model"""
     predictions = Prediction.objects.filter(user=request.user)
     
     if model_name:
@@ -125,6 +94,105 @@ def predictions_list(request, model_name=None):
     }
     
     return render(request, 'ml/predictions_list.html', context)
+
+# Update your model_prediction function in views.py
+
+@login_required
+def model_prediction(request, model_name):
+    """Processes the prediction for both classification and regression"""
+    if request.method != 'POST':
+        return redirect('model_form', model_name=model_name)
+    
+    config = get_model_config(model_name)
+    if not config:
+        return redirect('index')
+    
+    try:
+        # Check if this is a regression model
+        is_regression = model_name in ['Random_Forest_regression']
+        
+        if is_regression:
+            # Use special regression feature preparation
+            from .utils import prepare_regression_features, make_regression_prediction, interpret_regression_prediction
+            
+            features, input_dict = prepare_regression_features(model_name, request.POST)
+            predicted_value = make_regression_prediction(model_name, features)
+            result = interpret_regression_prediction(model_name, predicted_value)
+            
+            # Save prediction
+            ml_model_instance, _ = MLModel.objects.get_or_create(
+                name=model_name,
+                defaults={
+                    'display_name': config['display_name'],
+                    'description': config['description'],
+                    'model_file': config['model_file'],
+                    'image_path': config['image_path']
+                }
+            )
+            
+            Prediction.objects.create(
+                user=request.user,
+                ml_model=ml_model_instance,
+                input_data=input_dict,
+                prediction_result={
+                    'value': float(predicted_value),
+                    'label': result['label'],
+                    'description': result.get('description', '')
+                }
+            )
+            
+            context = {
+                'config': config,
+                'result': result,
+                'input_data': input_dict,
+                'model_name': model_name,
+                'predicted_value': predicted_value,
+                'is_regression': True
+            }
+            
+        else:
+            # Standard classification handling
+            features, input_dict = prepare_input_features(model_name, request.POST)
+            predicted_class = make_prediction(model_name, features)
+            result = interpret_prediction(model_name, predicted_class)
+            
+            ml_model_instance, _ = MLModel.objects.get_or_create(
+                name=model_name,
+                defaults={
+                    'display_name': config['display_name'],
+                    'description': config['description'],
+                    'model_file': config['model_file'],
+                    'image_path': config['image_path']
+                }
+            )
+            
+            Prediction.objects.create(
+                user=request.user,
+                ml_model=ml_model_instance,
+                input_data=input_dict,
+                prediction_result={
+                    'class': int(predicted_class),
+                    'label': result['label'],
+                    'description': result.get('description', '')
+                }
+            )
+            
+            context = {
+                'config': config,
+                'result': result,
+                'input_data': input_dict,
+                'model_name': model_name,
+                'predicted_class': predicted_class,
+                'is_regression': False
+            }
+        
+        return render(request, 'ml/prediction_result.html', context)
+    
+    except Exception as e:
+        import traceback
+        print(f"Error in prediction: {str(e)}")
+        print(traceback.format_exc())
+        return render(request, 'ml/error.html', {'error': str(e)})
 
 
 @login_required
