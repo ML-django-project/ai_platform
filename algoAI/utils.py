@@ -4,12 +4,10 @@ import joblib
 import numpy as np
 
 def get_model_config(model_name):
-    """Get configuration for a specific model"""
     from .ml_configs import ML_CONFIGS
     return ML_CONFIGS.get(model_name)
 
 def load_ml_model(model_name):
-    """Load the ML model and scaler from disk"""
     from .ml_configs import ML_CONFIGS
     
     if model_name not in ML_CONFIGS:
@@ -32,7 +30,6 @@ def load_ml_model(model_name):
     return model, scaler
 
 def prepare_input_features(model_name, post_data):
-    """Prepare input features from POST data"""
     config = get_model_config(model_name)
     features = []
     input_dict = {}
@@ -46,7 +43,6 @@ def prepare_input_features(model_name, post_data):
     return features, input_dict
 
 def make_prediction(model_name, features):
-    """Make prediction using the model"""
     model, scaler = load_ml_model(model_name)
     features_array = np.array([features])
     
@@ -59,7 +55,6 @@ def make_prediction(model_name, features):
     return int(prediction[0])
 
 def interpret_prediction(model_name, prediction_value):
-    """Get the output class info for a prediction"""
     config = get_model_config(model_name)
     prediction_class = int(prediction_value)
     
@@ -69,7 +64,6 @@ def interpret_prediction(model_name, prediction_value):
     return None
 
 def get_model_info(model_name):
-    """Get model metadata"""
     config = get_model_config(model_name)
     if not config:
         return None
@@ -85,8 +79,153 @@ def get_model_info(model_name):
         'num_classes': len(config['output_classes'])
     }
 
+# Add these functions to your utils.py
+
+import numpy as np
+
+def prepare_regression_features(model_name, post_data):
+    """
+    Special handling for regression models with OneHotEncoded features
+    """
+    config = get_model_config(model_name)
+    
+    # Check if this is the car price regression model
+    if model_name == 'Random_Forest_regression':
+        return prepare_car_price_features(post_data)
+    else:
+        # Use standard preparation for other models
+        return prepare_input_features(model_name, post_data)
+
+def prepare_car_price_features(post_data):
+    """
+    Prepare features for car price prediction model
+    Handles OneHotEncoding for Make, Model, and Fuel_Type
+    
+    Expected order (from your notebook):
+    ['Make_Audi', 'Make_BMW', 'Make_Ford', 'Make_Honda', 'Make_Toyota',
+     'Model_Model A', 'Model_Model B', 'Model_Model C', 'Model_Model D', 'Model_Model E',
+     'Fuel Type_Diesel', 'Fuel Type_Electric', 'Fuel Type_Petrol',
+     'Year', 'Engine Size', 'Mileage', 'Transmission']
+    """
+    
+    # Get values from form
+    make = post_data.get('Make', 'Honda')
+    model = post_data.get('Model', 'Model B')
+    fuel_type = post_data.get('Fuel_Type', 'Petrol')
+    transmission = int(post_data.get('Transmission', 0))
+    year = float(post_data.get('Year', 2015))
+    engine_size = float(post_data.get('Engine_Size', 2.5))
+    mileage = float(post_data.get('Mileage', 50000))
+    
+    # Initialize features array (17 features total)
+    features = []
+    
+    # One-hot encode Make (5 features)
+    make_options = ['Audi', 'BMW', 'Ford', 'Honda', 'Toyota']
+    for option in make_options:
+        features.append(1 if make == option else 0)
+    
+    # One-hot encode Model (5 features)
+    model_options = ['Model A', 'Model B', 'Model C', 'Model D', 'Model E']
+    for option in model_options:
+        features.append(1 if model == option else 0)
+    
+    # One-hot encode Fuel Type (3 features)
+    fuel_options = ['Diesel', 'Electric', 'Petrol']
+    for option in fuel_options:
+        features.append(1 if fuel_type == option else 0)
+    
+    # Add numerical features (4 features)
+    features.extend([year, engine_size, mileage, transmission])
+    
+    # Create input dictionary for display
+    input_dict = {
+        'Make': make,
+        'Model': model,
+        'Fuel Type': fuel_type,
+        'Transmission': 'Automatic' if transmission == 0 else 'Manual',
+        'Year': int(year),
+        'Engine Size': engine_size,
+        'Mileage': int(mileage)
+    }
+    
+    return features, input_dict
+
+def make_regression_prediction(model_name, features):
+    """
+    Make prediction for regression models (returns continuous value)
+    """
+    model, scaler = load_ml_model(model_name)
+    features_array = np.array([features])
+    
+    # Apply scaling if scaler exists
+    if scaler is not None:
+        if model_name == 'Random_Forest_regression':
+            # Feature structure (17 total features):
+            # [0-4]: Make (one-hot encoded, 5 features)
+            # [5-9]: Model (one-hot encoded, 5 features)
+            # [10-12]: Fuel_Type (one-hot encoded, 3 features)
+            # [13]: Year - NEEDS SCALING
+            # [14]: Engine_Size - NEEDS SCALING
+            # [15]: Mileage - NEEDS SCALING
+            # [16]: Transmission - NO SCALING (categorical 0/1)
+            
+            # Split features
+            one_hot_features = features_array[:, :13]  # Indices 0-12: one-hot encoded
+            year = features_array[:, 13:14]             # Index 13: Year
+            engine_size = features_array[:, 14:15]      # Index 14: Engine_Size
+            mileage = features_array[:, 15:16]          # Index 15: Mileage
+            transmission = features_array[:, 16:17]     # Index 16: Transmission
+            
+            # Combine only the 3 features that need scaling
+            features_to_scale = np.concatenate([year, engine_size, mileage], axis=1)
+            
+            # Scale these 3 features (matches your training: Year, Engine Size, Mileage)
+            scaled_features = scaler.transform(features_to_scale)
+            
+            # Reconstruct full feature array in correct order:
+            # [one-hot (13)] + [scaled Year, Engine, Mileage (3)] + [Transmission (1)]
+            features_array = np.concatenate([
+                one_hot_features,   # 0-12
+                scaled_features,    # 13-15 (scaled)
+                transmission        # 16 (not scaled)
+            ], axis=1)
+        else:
+            # Standard scaling for other regression models
+            features_array = scaler.transform(features_array)
+    
+    # Make prediction
+    prediction = model.predict(features_array)
+    predicted_value = float(prediction[0])
+    
+    return predicted_value
+def interpret_regression_prediction(model_name, prediction_value):
+    """
+    Interpret regression prediction (continuous value)
+    """
+    config = get_model_config(model_name)
+    
+    if model_name == 'Random_Forest_regression':
+        # Format price nicely
+        return {
+            'label': f'${prediction_value:,.2f}',
+            'value': prediction_value,
+            'image': config['output_classes'][0]['image'],
+            'badge_class': config['output_classes'][0]['badge_class'],
+            'description': f'Estimated car price: ${prediction_value:,.2f}'
+        }
+    
+    # Default for other regression models
+    return {
+        'label': f'{prediction_value:.2f}',
+        'value': prediction_value,
+        'image': config['output_classes'][0]['image'],
+        'badge_class': config['output_classes'][0]['badge_class'],
+        'description': f'Predicted value: {prediction_value:.2f}'
+    }
+
+
 def validate_model_files(model_name):
-    """Check if model files exist"""
     config = get_model_config(model_name)
     if not config:
         return False, f"Model config not found: {model_name}"

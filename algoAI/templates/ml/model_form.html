@@ -9,9 +9,9 @@
 <script>
     document.addEventListener('DOMContentLoaded', function(){
         {% for field in config.input_fields %}
-        {% if field.type == 'range' %}
+        {% if field.type == 'number' %}
         const slider_{{ field.name }} = document.getElementById('{{ field.name }}');
-        const display_{{ field.name }} = document.getElementById('{{ field.name }}_value');
+        const display_{{ field.name }} = document.getElementById('{{ field.name }}Value');
         
         if (slider_{{ field.name }} && display_{{ field.name }}) {
             display_{{ field.name }}.textContent = slider_{{ field.name }}.value;
@@ -48,14 +48,19 @@
                     <span class="slider-value" id="{{ field.name }}_value">{{ field.default }}</span>
                     
                     {% elif field.type == 'number' %}
-                    <input type="number" 
-                           class="form-control" 
-                           id="{{ field.name }}" 
-                           name="{{ field.name }}"
-                           min="{{ field.min }}" 
-                           max="{{ field.max }}" 
-                           step="{{ field.step }}" 
-                           value="{{ field.default }}">
+                        <div class="mb-4">
+                            <input type="range" 
+                                class="form-range" 
+                                min="{{ field.min }}" 
+                                max="{{ field.max }}" 
+                                step="{{ field.step }}" 
+                                id="{{ field.name }}" 
+                                name="{{ field.name }}"
+                                value="{{ field.default }}" 
+                                oninput="document.getElementById('{{ field.name }}Value').textContent=this.value">
+                            <span  id="{{ field.name }}Value">{{ field.default }}</span>
+                        </div>
+                
                     
                     {% elif field.type == 'text' %}
                     <input type="text" 

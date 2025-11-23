@@ -32,41 +32,6 @@
    
         <div class="row row-cols-1 row-cols-md-3 g-4">
             
-<!-- Mushroom -->
-            <div class="col">
-                <div class="card h-100">
-                    <h5 class="card-header">mushroom classification</h5>
-                    <div class="card-body">
-                        <img src="{% static 'images/mushrooms/mushroom.jpg' %}" class="card-img-top" alt="Random Forest">
-                        <div class="card-text mt-3">
-                            <p>Algorithme d'ensemble qui combine plusieurs arbres de décision</p>
-                        </div>
-                        
-                        <div class="model-variants mt-3">
-                            <h6 class="text-muted mb-3">Choisir le type:</h6>
-                            
-                            <div class="variant-option mb-3 p-3 border rounded">
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <strong>Classification :</strong>
-                                </div>
-                                <a class="btn btn-primary btn-sm w-100" href="{% url 'model_overview' 'mushroom_classification' %}">
-                                    Voir le modèle
-                                </a>
-                            </div>
-                            
-                            <div class="variant-option p-3 border rounded">
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <strong>Régression</strong>
-                                </div>
-                                <a class="btn btn-primary btn-sm w-100" href="{% url 'model_overview' 'random_forest_regression' %}">
-                                    Voir le modèle
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
 <!-- Random Forest -->
             <div class="col">
                 <div class="card h-100">
@@ -93,7 +58,75 @@
                                 <div class="d-flex justify-content-between align-items-center mb-2">
                                     <strong>Régression</strong>
                                 </div>
-                                <a class="btn btn-primary btn-sm w-100" href="{% url 'model_overview' 'random_forest_regression' %}">
+                                <a class="btn btn-primary btn-sm w-100" href="{% url 'model_overview' 'Random_Forest_regression' %}">
+                                    Voir le modèle
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+<!-- decision tree -->
+            <div class="col">
+                <div class="card h-100">
+                    <h5 class="card-header">Decision Tree</h5>
+                    <div class="card-body">
+                        <img src="{% static 'images/dession_tree_images.png' %}" class="card-img-top" alt="Random Forest">
+                        <div class="card-text mt-3">
+                            <p>Algorithme d'arbres de décision</p>
+                        </div>
+                        
+                        <div class="model-variants mt-3">
+                            <h6 class="text-muted mb-3">Choisir le type:</h6>
+                            
+                            <div class="variant-option mb-3 p-3 border rounded">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <strong>Classification :</strong>
+                                </div>
+                                <a class="btn btn-primary btn-sm w-100" href="{% url 'model_overview' 'Decision_Tree_clasification' %}">
+                                    Voir le modèle
+                                </a>
+                            </div>
+                            
+                            <div class="variant-option p-3 border rounded">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <strong>Régression</strong>
+                                </div>
+                                <a class="btn btn-primary btn-sm w-100" href="{% url 'model_overview' 'Decision_Tree_regression' %}">
+                                    Voir le modèle
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+<!-- svm -->
+            <div class="col">
+                <div class="card h-100">
+                    <h5 class="card-header">SVM</h5>
+                    <div class="card-body">
+                        <img src="{% static 'images/SVM.png' %}" class="card-img-top" alt="Random Forest">
+                        <div class="card-text mt-3">
+                            <p>Algorithme d'arbres de décision</p>
+                        </div>
+                        
+                        <div class="model-variants mt-3">
+                            <h6 class="text-muted mb-3">Choisir le type:</h6>
+                            
+                            <div class="variant-option mb-3 p-3 border rounded">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <strong>Classification :</strong>
+                                </div>
+                                <a class="btn btn-primary btn-sm w-100" href="{% url 'model_overview' 'SVM_clasification' %}">
+                                    Voir le modèle
+                                </a>
+                            </div>
+                            
+                            <div class="variant-option p-3 border rounded">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <strong>Régression</strong>
+                                </div>
+                                <a class="btn btn-primary btn-sm w-100" href="{% url 'model_overview' 'SVM_regression' %}">
                                     Voir le modèle
                                 </a>
                             </div>
@@ -102,10 +135,9 @@
                 </div>
             </div>
 
-
             <!-- Individual Models -->
             {% for model_name, config in ml_models.items %}
-            {% if model_name != 'mushroom_classification' %}
+            {% if model_name == 'logistic_regression' or model_name == 'mushroom_classification' %}
             <div class="col">
                 <div class="card h-100">
                     <h5 class="card-header">{{ config.display_name }}</h5>

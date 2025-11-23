@@ -9,34 +9,70 @@
 <div class="container">
     <div class="card mb-3">
         <div class="card-header">
-            <strong>Résultat de Classification - {{ config.display_name }}</strong>
+            <strong>Résultat - {{ config.display_name }}</strong>
         </div>
         <div class="card-body">
             <div class="row">
                 <div class="col-md-6">
-                    <h5 class="card-title">
-                        Type prédit: 
-                        <span class="badge {{ result.badge_class }}">{{ result.label }}</span>
-                    </h5>
-                    <img src="{% static result.image %}" class="img-thumbnail card-img-top" style="max-width: 350px" alt="{{ result.label }}">
+                    {% if is_regression %}
+                        <!-- Regression Result -->
+                        <h5 class="card-title">
+                            Valeur Prédite: 
+                            <span class="badge {{ result.badge_class }}">{{ result.label }}</span>
+                        </h5>
+                        <div class="alert alert-info mt-3">
+                            <h6>Prix Estimé</h6>
+                            <h3>${{ predicted_value|floatformat:2 }}</h3>
+                        </div>
+                    {% else %}
+                        <!-- Classification Result -->
+                        <h5 class="card-title">
+                            Type prédit: 
+                            <span class="badge {{ result.badge_class }}">{{ result.label }}</span>
+                        </h5>
+                        {% if result.image %}
+                        <img src="{% static result.image %}" class="img-thumbnail card-img-top" style="max-width: 350px" alt="{{ result.label }}">
+                        {% endif %}
+                    {% endif %}
+                    
+                    {% if result.description %}
+                    <div class="alert alert-secondary mt-3">
+                        {{ result.description }}
+                    </div>
+                    {% endif %}
                 </div>
                 <div class="col-md-6">
                     <p class="card-text">
-                        Le résultat de la prédiction est basé sur les caractéristiques suivantes:
+                        <strong>Caractéristiques utilisées:</strong>
                     </p>
-                    {% for key, value in input_data.items %}
-                    <div><strong>{{ key }}:</strong> {{ value }}</div>
-                    {% endfor %}
+                    <div class="table-responsive">
+                        <table class="table table-sm table-striped">
+                            <tbody>
+                                {% for key, value in input_data.items %}
+                                <tr>
+                                    <td><strong>{{ key }}</strong></td>
+                                    <td>{{ value }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     
-    <a class="btn btn-success col-12 col-md-6 mt-2 mb-2" href="{% url 'model_predictions_list' model_name %}">
-        Mon Historique pour {{ config.display_name }}
-    </a>
-    <a class="btn btn-primary col-12 col-md-6 mt-2 mb-2" href="{% url 'model_form' model_name %}">
-        Faire une nouvelle prédiction
-    </a>
+    <div class="row">
+        <div class="col-md-6 mb-2">
+            <a class="btn btn-success w-100" href="{% url 'model_predictions_list' model_name %}">
+                Mon Historique pour {{ config.display_name }}
+            </a>
+        </div>
+        <div class="col-md-6 mb-2">
+            <a class="btn btn-primary w-100" href="{% url 'model_form' model_name %}">
+                Faire une nouvelle prédiction
+            </a>
+        </div>
+    </div>
 </div>
 {% endblock content %}

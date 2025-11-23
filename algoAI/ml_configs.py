@@ -1,24 +1,4 @@
 FIELDS = {
-    ################## Vehicle fields #########################
-    'hauteur': {
-        'name': 'hauteur',
-        'label': 'Hauteur (m)',
-        'type': 'range',
-        'min': 2,
-        'max': 5.5,
-        'step': 0.1,
-        'default': 3
-    },
-    'n_roues': {
-        'name': 'n_roues',
-        'label': 'Nombre de roues',
-        'type': 'range',
-        'min': 4,
-        'max': 18,
-        'step': 2,
-        'default': 4
-    },
-    
     ############# Mushroom fields #############################################################################################
     'cap_shape': {
         'name': 'cap_shape',
@@ -39,10 +19,10 @@ FIELDS = {
         'label': 'Surface du chapeau',
         'type': 'select',
         'options': [
-            {'value': 0, 'label': 'Fibreux (fibrous=f)'},
-            {'value': 1, 'label': 'Rainuré (grooves=g)'},
-            {'value': 2, 'label': 'Écaillé (scaly=y)'},
-            {'value': 3, 'label': 'Lisse (smooth=s)'}
+            {'value': 0, 'label': 'Fibreux '},
+            {'value': 1, 'label': 'Rainuré '},
+            {'value': 2, 'label': 'Écaillé '},
+            {'value': 3, 'label': 'Lisse '}
         ],
         'default': 0
     },
@@ -51,16 +31,16 @@ FIELDS = {
         'label': 'Couleur du chapeau',
         'type': 'select',
         'options': [
-            {'value': 0, 'label': 'Marron (brown=n)'},
-            {'value': 1, 'label': 'Beige (buff=b)'},
-            {'value': 2, 'label': 'Cannelle (cinnamon=c)'},
-            {'value': 3, 'label': 'Gris (gray=g)'},
-            {'value': 4, 'label': 'Vert (green=r)'},
-            {'value': 5, 'label': 'Rose (pink=p)'},
-            {'value': 6, 'label': 'Violet (purple=u)'},
-            {'value': 7, 'label': 'Rouge (red=e)'},
-            {'value': 8, 'label': 'Blanc (white=w)'},
-            {'value': 9, 'label': 'Jaune (yellow=y)'}
+            {'value': 0, 'label': 'Marron '},
+            {'value': 1, 'label': 'Beige '},
+            {'value': 2, 'label': 'Cannelle '},
+            {'value': 3, 'label': 'Gris '},
+            {'value': 4, 'label': 'Vert '},
+            {'value': 5, 'label': 'Rose '},
+            {'value': 6, 'label': 'Violet '},
+            {'value': 7, 'label': 'Rouge '},
+            {'value': 8, 'label': 'Blanc '},
+            {'value': 9, 'label': 'Jaune '}
         ],
         'default': 0
     },
@@ -69,8 +49,8 @@ FIELDS = {
         'label': 'Meurtrissures',
         'type': 'radio',
         'options': [
-            {'value': 0, 'label': 'Présence de meurtrissures (bruises=t)'},
-            {'value': 1, 'label': 'Pas de meurtrissures (no=f)'}
+            {'value': 0, 'label': 'Présence de meurtrissures '},
+            {'value': 1, 'label': 'Pas de meurtrissures '}
         ],
         'default': 1
     },
@@ -79,15 +59,15 @@ FIELDS = {
         'label': 'Odeur',
         'type': 'select',
         'options': [
-            {'value': 0, 'label': 'Amande (almond=a)'},
-            {'value': 1, 'label': 'Anis (anise=l)'},
-            {'value': 2, 'label': 'Créosote (creosote=c)'},
-            {'value': 3, 'label': 'Poisson (fishy=y)'},
-            {'value': 4, 'label': 'Fétide (foul=f)'},
-            {'value': 5, 'label': 'Moisi (musty=m)'},
-            {'value': 6, 'label': 'Aucune odeur (none=n)'},
-            {'value': 7, 'label': 'Piquant (pungent=p)'},
-            {'value': 8, 'label': 'Épicé (spicy=s)'}
+            {'value': 0, 'label': 'Amande '},
+            {'value': 1, 'label': 'Anis '},
+            {'value': 2, 'label': 'Créosote '},
+            {'value': 3, 'label': 'Poisson '},
+            {'value': 4, 'label': 'Fétide '},
+            {'value': 5, 'label': 'Moisi '},
+            {'value': 6, 'label': 'Aucune odeur '},
+            {'value': 7, 'label': 'Piquant '},
+            {'value': 8, 'label': 'Épicé '}
         ],
         'default': 6
     },
@@ -96,9 +76,9 @@ FIELDS = {
         'label': 'Attache des lamelles',
         'type': 'select',
         'options': [
-            {'value': 0, 'label': 'Attaché (attached=a)'},
-            {'value': 1, 'label': 'Descendant (descending=d)'},
-            {'value': 2, 'label': 'Libre (free=f)'},
+            {'value': 0, 'label': 'Attaché '},
+            {'value': 1, 'label': 'Descendant '},
+            {'value': 2, 'label': 'Libre '},
             {'value': 3, 'label': 'Entaillé (notched=n)'}
         ],
         'default': 2
@@ -322,7 +302,94 @@ FIELDS = {
         ],
         'default': 6
     },
+    #####################################################################################################################
+    ############ car price ##############################################################################################
+    'Make': {
+        'name': 'Make',
+        'label': 'Car Make',
+        'type': 'select',
+        'options': [
+            {'value': 'Audi', 'label': 'Audi'},
+            {'value': 'BMW', 'label': 'BMW'},
+            {'value': 'Ford', 'label': 'Ford'},
+            {'value': 'Honda', 'label': 'Honda'},
+            {'value': 'Toyota', 'label': 'Toyota'}
+        ],
+        'default': 'Honda'
+    },
     
+    # Car Model (will be one-hot encoded)
+    'Model': {
+        'name': 'Model',
+        'label': 'Car Model',
+        'type': 'select',
+        'options': [
+            {'value': 'Model A', 'label': 'Model A'},
+            {'value': 'Model B', 'label': 'Model B'},
+            {'value': 'Model C', 'label': 'Model C'},
+            {'value': 'Model D', 'label': 'Model D'},
+            {'value': 'Model E', 'label': 'Model E'}
+        ],
+        'default': 'Model B'
+    },
+    
+    # Fuel Type (will be one-hot encoded)
+    'Fuel_Type': {
+        'name': 'Fuel_Type',
+        'label': 'Fuel Type',
+        'type': 'select',
+        'options': [
+            {'value': 'Diesel', 'label': 'Diesel'},
+            {'value': 'Electric', 'label': 'Electric'},
+            {'value': 'Petrol', 'label': 'Petrol'}
+        ],
+        'default': 'Petrol'
+    },
+    
+    # Transmission (will be label encoded)
+    'Transmission': {
+        'name': 'Transmission',
+        'label': 'Transmission',
+        'type': 'select',
+        'options': [
+            {'value': 0, 'label': 'Automatic'},
+            {'value': 1, 'label': 'Manual'}
+        ],
+        'default': 0
+    },
+    
+    # Year
+    'Year': {
+        'name': 'Year',
+        'label': 'Year',
+        'type': 'number',
+        'min': 2000,
+        'max': 2025,
+        'step': 1,
+        'default': 2015
+    },
+    
+    # Engine Size
+    'Engine_Size': {
+        'name': 'Engine_Size',
+        'label': 'Engine Size (L)',
+        'type': 'number',
+        'min': 1.0,
+        'max': 4.5,
+        'step': 0.1,
+        'default': 2.5
+    },
+    
+    # Mileage
+    'Mileage': {
+        'name': 'Mileage',
+        'label': 'Mileage (km)',
+        'type': 'number',
+        'min': 0,
+        'max': 200000,
+        'step': 1000,
+        'default': 50000
+    },
     ##################### Heart Disease Health fields #########################################################################
     'Age': {
         'name': 'Age',
@@ -525,6 +592,14 @@ FIELDS = {
 #######################################################################################################
 #######################################################################################
 OUTPUT_CLASSES = {
+    'car_price': {
+        0: {
+        'label': 'Price Prediction',
+        'image': 'images/car_price/car.jpg',
+        'badge_class': 'bg-info',
+        'description': 'Estimated car price based on features'
+    }
+    },
     'mushroom': {
         0: {
             'label': 'COMESTIBLE (edible=e)',
@@ -570,7 +645,7 @@ OUTPUT_CLASSES = {
 
 def create_model(name, display_name, description, model_file, image_path, 
                  field_keys, output_class_key, scaler_file=None, 
-                 detail_pdf=None, demo_pdf=None):
+                 detail_pdf=None, demo_pdf=None, algorithm=None, task_type=None):
     return {
         'name': name,
         'display_name': display_name,
@@ -581,10 +656,73 @@ def create_model(name, display_name, description, model_file, image_path,
         'detail_pdf': detail_pdf,
         'demo_pdf': demo_pdf,
         'input_fields': [FIELDS[key] for key in field_keys],
-        'output_classes': OUTPUT_CLASSES[output_class_key]
+        'output_classes': OUTPUT_CLASSES[output_class_key],
+        'algorithm': algorithm, 
+        'task_type': task_type
     }
 
 ML_CONFIGS = {
+    
+    #SVM regression
+    'SVM_regression': create_model(
+        name='SVM_regression',
+        display_name='Car Price Prediction - SVM Regression',
+        description="Predict car prices using Random Forest algorithm",
+        model_file='RF_Regression.pkl',
+        image_path='images/random_forest.png',
+        field_keys=['Make', 'Model', 'Fuel_Type', 'Transmission', 'Year', 'Engine_Size', 'Mileage'],
+        output_class_key='car_price',
+        scaler_file='Scaler_RF_Regression.pkl',
+        detail_pdf='pdfs/random_forest_regression_guide.pdf',
+        demo_pdf='pdfs/random_forest_regression_demo.pdf',
+    ),
+    # SVM clasification
+    'SVM_regression': create_model(
+        name='SVM_regression',
+        display_name='Heart Disease Risk Prediction - SVM Regression',
+        description="Machine learning model to predict heart disease risk",
+        model_file='SVM_Regression.pkl',
+        image_path='images/SVM.jpeg',
+        field_keys=[
+            'Age', 'Gender', 'Weight', 'Height', 'BMI', 'Smoking',
+            'Alcohol_Intake', 'Physical_Activity', 'Diet', 'Stress_Level',
+            'Hypertension', 'Diabetes', 'Hyperlipidemia', 'Family_History',
+            'Previous_Heart_Attack', 'Systolic_BP', 'Diastolic_BP',
+            'Heart_Rate', 'Blood_Sugar_Fasting', 'Cholesterol_Total'
+        ],
+        output_class_key='heart_risk',
+        scaler_file='Scaler_SVM_Regression.pkl',
+        detail_pdf= 'pdfs/logistic_regresssion_guide.pdf',
+        demo_pdf=  'pdfs/logistic_regresssion_demo.pdf',
+    ),
+    # Car Price - Random Forest Regression
+    'Random_Forest_regression': create_model(
+        name='Random_Forest_regression',
+        display_name='Car Price Prediction - Random Forest Regression',
+        description="Predict car prices using Random Forest algorithm",
+        model_file='RF_Regression.pkl',
+        image_path='images/random_forest.png',
+        field_keys=['Make', 'Model', 'Fuel_Type', 'Transmission', 'Year', 'Engine_Size', 'Mileage'],
+        output_class_key='car_price',
+        scaler_file='Scaler_RF_Regression.pkl',
+        detail_pdf='pdfs/random_forest_regression_guide.pdf',
+        demo_pdf='pdfs/random_forest_regression_demo.pdf',
+    ),
+    # Random Forest - classification
+    'Random_Forest_classification': create_model(
+        name='Random_Forest_classification',
+        display_name='Heart Disease Risk Prediction - Random Forest Classification',
+        description="Machine learning model to predict heart disease risk",
+        model_file='RF_classification.pkl',
+        image_path='images/random_forest.png',
+        field_keys=[
+            'Cholesterol_Total', 'Age', 'Hypertension', 'Diabetes', 'Previous_Heart_Attack', 'BMI', 'Diastolic_BP', 'Heart_Rate', 'Weight'
+        ],
+        output_class_key='heart_risk',
+        scaler_file=None,
+        detail_pdf= 'pdfs/logistic_regresssion_guide.pdf',
+        demo_pdf=  'pdfs/logistic_regresssion_demo.pdf',
+    ),
     # Mushroom Classification - Random Forest
     'mushroom_classification': create_model(
         name='mushroom_classification',
@@ -603,7 +741,7 @@ ML_CONFIGS = {
         ],
         output_class_key='mushroom',
         detail_pdf='pdfs/Mushroom_Classification.pdf',
-        demo_pdf='pdfs/Mushroom_Classification.pdf'
+        demo_pdf='pdfs/Mushroom_Classification.pdf',
     ),
 
     # Heart Disease - Logistic Regression
@@ -625,26 +763,35 @@ ML_CONFIGS = {
         detail_pdf= 'pdfs/logistic_regresssion_guide.pdf',
         demo_pdf=  'pdfs/logistic_regresssion_demo.pdf',
     ),
-    # Random Forest - classification
-    'Random_Forest_classification': create_model(
-        name='Random_Forest_classification',
-        display_name='Heart Disease Risk Prediction - Random Forest Classification',
+    # Decision Tree regression
+    'Decision_Tree_regression': create_model(
+        name='Decision_Tree_regression',
+        display_name='Heart Disease Risk Prediction - Decision Tree regression',
         description="Machine learning model to predict heart disease risk",
-        model_file='RF_classification.pkl',
-        image_path='images/random_forest.png',
-        field_keys=[
-            'Age', 'Gender', 'Weight', 'Height', 'BMI', 'Smoking',
-            'Alcohol_Intake', 'Physical_Activity', 'Diet', 'Stress_Level',
-            'Hypertension', 'Diabetes', 'Hyperlipidemia', 'Family_History',
-            'Previous_Heart_Attack', 'Systolic_BP', 'Diastolic_BP',
-            'Heart_Rate', 'Blood_Sugar_Fasting', 'Cholesterol_Total'
-        ],
+        model_file='Decision_Tree_Regression.pkl',
+        image_path='images/dession_tree_images.png',
+        field_keys=['Make', 'Model', 'Fuel_Type', 'Transmission', 'Year', 'Engine_Size', 'Mileage'],
         output_class_key='heart_risk',
-        scaler_file='Scaler_RF_Regression.pkl',
+        scaler_file=None,
         detail_pdf= 'pdfs/logistic_regresssion_guide.pdf',
         demo_pdf=  'pdfs/logistic_regresssion_demo.pdf',
     ),
-
+    # Decision Tree clasification
+    'Decision_Tree_clasification': create_model(
+        name='Decision_Tree_clasification',
+        display_name='Heart Disease Risk Prediction - Decision Tree clasification',
+        description="Machine learning model to predict heart disease risk",
+        model_file='Decision_Tree_classification.pkl',
+        image_path='images/dession_tree_images.png',
+        field_keys=[
+            'Cholesterol_Total', 'Hypertension', 'Diabetes', 'Age',
+            'Previous_Heart_Attack'
+        ],
+        output_class_key='heart_risk',
+        scaler_file='Scaler_Decision_Tree_classification.pkl',
+        detail_pdf= 'pdfs/logistic_regresssion_guide.pdf',
+        demo_pdf=  'pdfs/logistic_regresssion_demo.pdf',
+    ),
 }
 
 
