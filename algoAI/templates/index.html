@@ -137,7 +137,7 @@
 
             <!-- Individual Models -->
             {% for model_name, config in ml_models.items %}
-            {% if model_name == 'logistic_regression' or model_name == 'mushroom_classification' %}
+            {% if model_name == 'logistic_regression' or model_name == 'mushroom_classification' or model_name == 'regression_linaire' %}
             <div class="col">
                 <div class="card h-100">
                     <h5 class="card-header">{{ config.display_name }}</h5>

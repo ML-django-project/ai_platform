@@ -662,7 +662,18 @@ def create_model(name, display_name, description, model_file, image_path,
     }
 
 ML_CONFIGS = {
-    
+    'regression_linaire': create_model(
+        name='regression_linaire',
+        display_name='Car Price Prediction - regression_linaire',
+        description="Predict car prices using Random Forest algorithm",
+        model_file='regression_linaire.pkl',
+        image_path='images/random_forest.png',
+        field_keys=['Make', 'Model', 'Fuel_Type', 'Transmission', 'Year', 'Engine_Size', 'Mileage'],
+        output_class_key='car_price',
+        scaler_file='Scaler_regression_linaire.pkl',
+        detail_pdf='pdfs/random_forest_regression_guide.pdf',
+        demo_pdf='pdfs/random_forest_regression_demo.pdf',
+    ),
     #SVM regression
     'SVM_regression': create_model(
         name='SVM_regression',
@@ -677,7 +688,7 @@ ML_CONFIGS = {
         demo_pdf='pdfs/random_forest_regression_demo.pdf',
     ),
     # SVM clasification
-    'SVM_regression': create_model(
+    'SVM_clasification': create_model(
         name='SVM_regression',
         display_name='Heart Disease Risk Prediction - SVM Regression',
         description="Machine learning model to predict heart disease risk",
