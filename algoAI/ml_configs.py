@@ -689,22 +689,20 @@ ML_CONFIGS = {
     ),
     # SVM clasification
     'SVM_clasification': create_model(
-        name='SVM_regression',
-        display_name='Heart Disease Risk Prediction - SVM Regression',
+        name='SVM_classification',
+        display_name='Heart Disease Risk Prediction - SVM classification',
         description="Machine learning model to predict heart disease risk",
-        model_file='SVM_Regression.pkl',
+        model_file='SVM_clas.pkl',
         image_path='images/SVM.jpeg',
         field_keys=[
-            'Age', 'Gender', 'Weight', 'Height', 'BMI', 'Smoking',
-            'Alcohol_Intake', 'Physical_Activity', 'Diet', 'Stress_Level',
+            'Age', 'Gender', 'Stress_Level',
             'Hypertension', 'Diabetes', 'Hyperlipidemia', 'Family_History',
-            'Previous_Heart_Attack', 'Systolic_BP', 'Diastolic_BP',
-            'Heart_Rate', 'Blood_Sugar_Fasting', 'Cholesterol_Total'
+            'Previous_Heart_Attack', 'Diastolic_BP', 'Cholesterol_Total'
         ],
         output_class_key='heart_risk',
-        scaler_file='Scaler_SVM_Regression.pkl',
-        detail_pdf= 'pdfs/logistic_regresssion_guide.pdf',
-        demo_pdf=  'pdfs/logistic_regresssion_demo.pdf',
+        scaler_file= 'scaler_svm_reduced_features.pkl',
+        detail_pdf= 'pdfs/Supervised_learning_classification_guide.pdf',
+        demo_pdf=  'pdfs/svm_classification_demo.pdf',
     ),
     # Car Price - Random Forest Regression
     'Random_Forest_regression': create_model(
