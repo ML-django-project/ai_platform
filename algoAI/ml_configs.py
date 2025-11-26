@@ -680,20 +680,20 @@ ML_CONFIGS = {
         display_name='Car Price Prediction - SVM Regression',
         description="Predict car prices using Random Forest algorithm",
         model_file='RF_Regression.pkl',
-        image_path='images/random_forest.png',
+        image_path='images/SVM.png',
         field_keys=['Make', 'Model', 'Fuel_Type', 'Transmission', 'Year', 'Engine_Size', 'Mileage'],
         output_class_key='car_price',
         scaler_file='Scaler_RF_Regression.pkl',
-        detail_pdf='pdfs/random_forest_regression_guide.pdf',
+        detail_pdf='pdfs/Supervised_learning_classification_guide.pdf',
         demo_pdf='pdfs/random_forest_regression_demo.pdf',
     ),
     # SVM clasification
-    'SVM_clasification': create_model(
+    'SVM_classification': create_model(
         name='SVM_classification',
         display_name='Heart Disease Risk Prediction - SVM classification',
         description="Machine learning model to predict heart disease risk",
-        model_file='SVM_clas.pkl',
-        image_path='images/SVM.jpeg',
+        model_file='svm_clas_reduced_features.pkl',
+        image_path='images/SVM.png',
         field_keys=[
             'Age', 'Gender', 'Stress_Level',
             'Hypertension', 'Diabetes', 'Hyperlipidemia', 'Family_History',
