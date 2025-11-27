@@ -1,4 +1,3 @@
-
 import os
 import joblib
 import numpy as np
@@ -30,13 +29,31 @@ def load_ml_model(model_name):
     return model, scaler
 
 def prepare_input_features(model_name, post_data):
+    """
+    Standard feature preparation for classification models
+    Only converts numeric fields to float
+    """
     config = get_model_config(model_name)
     features = []
     input_dict = {}
     
     for field in config['input_fields']:
         field_name = field['name']
-        value = float(post_data.get(field_name, field['default']))
+        field_type = field.get('type', 'number')
+        
+        # Get the value from POST data or use default
+        value = post_data.get(field_name, field['default'])
+        
+        # Only convert to float if it's a numeric field
+        if field_type in ['number', 'radio', 'select']:
+            # For select/radio, check if the value is already numeric
+            try:
+                value = float(value)
+            except (ValueError, TypeError):
+                # If conversion fails, it might be a string option
+                # Keep it as is for now (shouldn't happen for classification models)
+                pass
+        
         features.append(value)
         input_dict[field_name] = value
     
@@ -79,18 +96,14 @@ def get_model_info(model_name):
         'num_classes': len(config['output_classes'])
     }
 
-# Add these functions to your utils.py
-
-import numpy as np
-
 def prepare_regression_features(model_name, post_data):
     """
     Special handling for regression models with OneHotEncoded features
     """
     config = get_model_config(model_name)
     
-    # Check if this is the car price regression model
-    if model_name == 'Random_Forest_regression':
+    # Check which regression model this is
+    if model_name in ['Random_Forest_regression', 'SVM_regression', 'regression_linaire', 'Decision_Tree_regression']:
         return prepare_car_price_features(post_data)
     else:
         # Use standard preparation for other models
@@ -98,10 +111,10 @@ def prepare_regression_features(model_name, post_data):
 
 def prepare_car_price_features(post_data):
     """
-    Prepare features for car price prediction model
+    Prepare features for car price prediction models
     Handles OneHotEncoding for Make, Model, and Fuel_Type
     
-    Expected order (from your notebook):
+    Expected order:
     ['Make_Audi', 'Make_BMW', 'Make_Ford', 'Make_Honda', 'Make_Toyota',
      'Model_Model A', 'Model_Model B', 'Model_Model C', 'Model_Model D', 'Model_Model E',
      'Fuel Type_Diesel', 'Fuel Type_Electric', 'Fuel Type_Petrol',
@@ -160,7 +173,7 @@ def make_regression_prediction(model_name, features):
     
     # Apply scaling if scaler exists
     if scaler is not None:
-        if model_name == 'Random_Forest_regression':
+        if model_name in ['Random_Forest_regression', 'SVM_regression']:
             # Feature structure (17 total features):
             # [0-4]: Make (one-hot encoded, 5 features)
             # [5-9]: Model (one-hot encoded, 5 features)
@@ -180,7 +193,7 @@ def make_regression_prediction(model_name, features):
             # Combine only the 3 features that need scaling
             features_to_scale = np.concatenate([year, engine_size, mileage], axis=1)
             
-            # Scale these 3 features (matches your training: Year, Engine Size, Mileage)
+            # Scale these 3 features
             scaled_features = scaler.transform(features_to_scale)
             
             # Reconstruct full feature array in correct order:
@@ -199,31 +212,21 @@ def make_regression_prediction(model_name, features):
     predicted_value = float(prediction[0])
     
     return predicted_value
+
 def interpret_regression_prediction(model_name, prediction_value):
     """
     Interpret regression prediction (continuous value)
     """
     config = get_model_config(model_name)
     
-    if model_name == 'Random_Forest_regression':
-        # Format price nicely
-        return {
-            'label': f'${prediction_value:,.2f}',
-            'value': prediction_value,
-            'image': config['output_classes'][0]['image'],
-            'badge_class': config['output_classes'][0]['badge_class'],
-            'description': f'Estimated car price: ${prediction_value:,.2f}'
-        }
-    
-    # Default for other regression models
+    # Format price nicely for car price models
     return {
-        'label': f'{prediction_value:.2f}',
+        'label': f'${prediction_value:,.2f}',
         'value': prediction_value,
         'image': config['output_classes'][0]['image'],
         'badge_class': config['output_classes'][0]['badge_class'],
-        'description': f'Predicted value: {prediction_value:.2f}'
+        'description': f'Estimated car price: ${prediction_value:,.2f}'
     }
-
 
 def validate_model_files(model_name):
     config = get_model_config(model_name)

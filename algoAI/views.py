@@ -111,8 +111,13 @@ def model_prediction(request, model_name):
         return redirect('index')
     
     try:
-        # Check if this is a regression model
-        is_regression = model_name in ['Random_Forest_regression']
+        # Check if this is a regression model (all car price models are regression)
+        is_regression = model_name in [
+            'Random_Forest_regression', 
+            'SVM_regression', 
+            'regression_linaire', 
+            'Decision_Tree_regression'
+        ]
         
         if is_regression:
             # Use special regression feature preparation
@@ -196,7 +201,8 @@ def model_prediction(request, model_name):
         print(f"Error in prediction: {str(e)}")
         print(traceback.format_exc())
         return render(request, 'ml/error.html', {'error': str(e)})
-    
+
+
 @login_required
 def dashboard(request):
     """Dashboard with user statistics"""

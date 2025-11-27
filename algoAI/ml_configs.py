@@ -670,7 +670,7 @@ ML_CONFIGS = {
         image_path='images/random_forest.png',
         field_keys=['Make', 'Model', 'Fuel_Type', 'Transmission', 'Year', 'Engine_Size', 'Mileage'],
         output_class_key='car_price',
-        scaler_file='ScalerLinear_Regression.pkl',
+        scaler_file=None,
         detail_pdf='pdfs/random_forest_regression_guide.pdf',
         demo_pdf='pdfs/random_forest_regression_demo.pdf',
     ),
