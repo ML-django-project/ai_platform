@@ -25,12 +25,14 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'about' %}">À propos</a>
                     </li>
+                    {% if user.is_authenticated %}
                     <li>
                     <form action="{% url 'users:logout' %}" method="post">
                         {% csrf_token %}
                         <button class="btn btn-primary"> Log out </button>
                     </form>
                     </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
