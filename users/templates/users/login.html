@@ -1,17 +1,78 @@
 {% extends "layout.html" %}
 {% load static %}
 
-{% block title %} 
-    Login
-{% endblock title %}
+{% block title %}Login - AI Platform{% endblock %}
 
 {% block content %}
+<div class="container">
+    <div class="row justify-content-center align-items-center" style="min-height: 80vh;">
+        <div class="col-md-5">
+            <div class="card shadow-lg border-0">
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <p class="text-muted">Sign in to your account</p>
+                    </div>
+                    <form method="post" action="{% url 'users:login' %}">
+                        {% csrf_token %}
+                        
+                        <!-- Username Field -->
+                        <div class="mb-4">
+                            <label for="username" class="form-label fw-semibold">
+                                <i class="bi bi-person-fill me-2"></i>Username
+                            </label>
+                            <input type="text" 
+                                   class="form-control form-control-lg" 
+                                   id="username" 
+                                   name="username" 
+                                   placeholder="Enter your username"
+                                   required 
+                                   autofocus>
+                        </div>
 
-    <h1>Login</h1>
-    <form action="/users/login/" method="post" class="ps-4 pe-4 pt-4 pb-4">
-        {% csrf_token %}
-        {{ form }}
-        <button>Submit</button>
-    </form>
-    
-{% endblock content %}
+                        <!-- Password Field -->
+                        <div class="mb-4">
+                            <label for="password" class="form-label fw-semibold">
+                                <i class="bi bi-lock-fill me-2"></i>Password
+                            </label>
+                            <input type="password" 
+                                   class="form-control form-control-lg" 
+                                   id="password" 
+                                   name="password" 
+                                   placeholder="Enter your password"
+                                   required>
+                        </div>
+                        <!-- Login Button -->
+                        <div class="d-grid mb-3">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                Sign In
+                            </button>
+                        </div>
+
+                        <!-- Divider -->
+                        <div class="text-center mb-3">
+                            <span class="text-muted">or</span>
+                        </div>
+
+                        <!-- Sign Up Link -->
+                        <div class="text-center">
+                            <p class="mb-0 text-muted">
+                                Don't have an account? 
+                                <a href="{% url 'users:register' %}" class="text-primary fw-semibold text-decoration-none">
+                                    Sign Up
+                                </a>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Back to Home Link -->
+            <div class="text-center mt-4">
+                <a href="{% url 'index' %}" class="text-muted text-decoration-none">
+                    <i class="bi bi-arrow-left me-2"></i>Back to Home
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -3,6 +3,9 @@ from .models import Prediction, MLModel
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.db.models import Count
+from django.utils import timezone
+from datetime import timedelta
 
 from reportlab.lib.pagesizes import letter, A4
 from reportlab.lib import colors
@@ -193,6 +196,52 @@ def model_prediction(request, model_name):
         print(f"Error in prediction: {str(e)}")
         print(traceback.format_exc())
         return render(request, 'ml/error.html', {'error': str(e)})
+    
+@login_required
+def dashboard(request):
+    """Dashboard with user statistics"""
+    
+    # Get all user's predictions
+    user_predictions = Prediction.objects.filter(user=request.user)
+    
+    # Total predictions count
+    total_predictions = user_predictions.count()
+    
+    # Count by model
+    predictions_by_model = user_predictions.values(
+        'ml_model__display_name', 
+        'ml_model__name'
+    ).annotate(count=Count('id')).order_by('-count')
+    
+    # Most used model
+    most_used_model = predictions_by_model.first() if predictions_by_model else None
+    
+    # Recent predictions (last 5)
+    recent_predictions = user_predictions[:5]
+    
+    # Last prediction
+    last_prediction = user_predictions.first() if user_predictions.exists() else None
+    
+    # Predictions this week
+    week_ago = timezone.now() - timedelta(days=7)
+    predictions_this_week = user_predictions.filter(created_at__gte=week_ago).count()
+    
+    # Predictions today
+    today = timezone.now().date()
+    predictions_today = user_predictions.filter(created_at__date=today).count()
+    
+    context = {
+        'total_predictions': total_predictions,
+        'predictions_by_model': predictions_by_model,
+        'most_used_model': most_used_model,
+        'recent_predictions': recent_predictions,
+        'last_prediction': last_prediction,
+        'predictions_this_week': predictions_this_week,
+        'predictions_today': predictions_today,
+    }
+    
+    return render(request, 'dashboard.html', context)
+
 
 
 @login_required

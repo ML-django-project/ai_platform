@@ -1,0 +1,261 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %}Dashboard - AI Platform{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>📊 Tableau de Bord</h1>
+        <span class="badge bg-primary fs-6">{{ user.username }}</span>
+    </div>
+
+    <!-- Statistics Cards Row -->
+    <div class="row g-4 mb-4">
+        <!-- Total Predictions -->
+        <div class="col-md-3">
+            <div class="card text-center h-100">
+                <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-muted">Total Prédictions</h6>
+                    <h2 class="card-title text-primary">{{ total_predictions }}</h2>
+                    <p class="card-text">
+                        <small class="text-muted">Depuis votre inscription</small>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- This Week -->
+        <div class="col-md-3">
+            <div class="card text-center h-100">
+                <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-muted">Cette Semaine</h6>
+                    <h2 class="card-title text-success">{{ predictions_this_week }}</h2>
+                    <p class="card-text">
+                        <small class="text-muted">Derniers 7 jours</small>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Today -->
+        <div class="col-md-3">
+            <div class="card text-center h-100">
+                <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-muted">Aujourd'hui</h6>
+                    <h2 class="card-title text-info">{{ predictions_today }}</h2>
+                    <p class="card-text">
+                        <small class="text-muted">{{ "now"|date:"d/m/Y" }}</small>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Models Used -->
+        <div class="col-md-3">
+            <div class="card text-center h-100">
+                <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-muted">Modèles Utilisés</h6>
+                    <h2 class="card-title text-warning">{{ predictions_by_model|length }}</h2>
+                    <p class="card-text">
+                        <small class="text-muted">Différents modèles</small>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Most Used Model & Last Prediction Row -->
+    <div class="row g-4 mb-4">
+        <!-- Most Used Model -->
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">🏆 Modèle le Plus Utilisé</h5>
+                </div>
+                <div class="card-body">
+                    {% if most_used_model %}
+                        <h4 class="card-title">{{ most_used_model.ml_model__display_name }}</h4>
+                        <p class="card-text">
+                            <span class="badge bg-success fs-5">{{ most_used_model.count }} prédictions</span>
+                        </p>
+                        <a href="{% url 'model_overview' most_used_model.ml_model__name %}" 
+                           class="btn btn-primary">
+                            Utiliser ce modèle
+                        </a>
+                    {% else %}
+                        <p class="text-muted">Aucune prédiction encore</p>
+                        <a href="{% url 'index' %}" class="btn btn-outline-primary">
+                            Commencer maintenant
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Last Prediction -->
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">🕐 Dernière Prédiction</h5>
+                </div>
+                <div class="card-body">
+                    {% if last_prediction %}
+                        <h5 class="card-title">{{ last_prediction.ml_model.display_name }}</h5>
+                        <p class="card-text">
+                            <strong>Résultat:</strong> 
+                            <span class="badge bg-info">
+                                {{ last_prediction.prediction_result.label }}
+                            </span>
+                        </p>
+                        <p class="card-text">
+                            <small class="text-muted">
+                                {{ last_prediction.created_at|date:"d/m/Y à H:i" }}
+                            </small>
+                        </p>
+                        <a href="{% url 'predictions_list' %}" class="btn btn-success">
+                            Voir toutes mes prédictions
+                        </a>
+                    {% else %}
+                        <p class="text-muted">Aucune prédiction encore</p>
+                        <a href="{% url 'index' %}" class="btn btn-outline-success">
+                            Faire une prédiction
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Predictions by Model Table -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0">📈 Statistiques par Modèle</h5>
+                </div>
+                <div class="card-body">
+                    {% if predictions_by_model %}
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Modèle</th>
+                                        <th>Nombre de Prédictions</th>
+                                        <th>Pourcentage</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for model in predictions_by_model %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>
+                                            <strong>{{ model.ml_model__display_name }}</strong>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-primary">{{ model.count }}</span>
+                                        </td>
+                                        <td>
+                                            <div class="progress" style="height: 25px;">
+                                                <div class="progress-bar" 
+                                                     role="progressbar" 
+                                                     style="width: {% widthratio model.count total_predictions 100 %}%"
+                                                     aria-valuenow="{{ model.count }}" 
+                                                     aria-valuemin="0" 
+                                                     aria-valuemax="{{ total_predictions }}">
+                                                    {% widthratio model.count total_predictions 100 %}%
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <a href="{% url 'model_predictions_list' model.ml_model__name %}" 
+                                               class="btn btn-sm btn-outline-primary">
+                                                Voir
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <p class="text-center text-muted mb-0">Aucune statistique disponible</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Predictions -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">🕒 Prédictions Récentes</h5>
+                </div>
+                <div class="card-body">
+                    {% if recent_predictions %}
+                        <div class="list-group">
+                            {% for pred in recent_predictions %}
+                            <div class="list-group-item">
+                                <div class="d-flex w-100 justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-1">{{ pred.ml_model.display_name }}</h6>
+                                        <small class="text-muted">
+                                            {{ pred.created_at|date:"d/m/Y à H:i" }}
+                                        </small>
+                                    </div>
+                                    <span class="badge bg-success">
+                                        {{ pred.prediction_result.label }}
+                                    </span>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="text-center mt-3">
+                            <a href="{% url 'predictions_list' %}" class="btn btn-outline-info">
+                                Voir toutes les prédictions
+                            </a>
+                        </div>
+                    {% else %}
+                        <p class="text-center text-muted mb-0">Aucune prédiction récente</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0">⚡ Actions Rapides</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <a href="{% url 'index' %}" class="btn btn-lg btn-primary w-100">
+                                🤖 Nouveaux Modèles
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="{% url 'predictions_list' %}" class="btn btn-lg btn-success w-100">
+                                📋 Mes Prédictions
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="{% url 'download_predictions_pdf' %}" class="btn btn-lg btn-warning w-100">
+                                📥 Télécharger PDF
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

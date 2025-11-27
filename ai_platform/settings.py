@@ -30,6 +30,8 @@ ALLOWED_HOSTS = []
 #for @login_required
 LOGIN_URL = '/users/login/'
 
+LOGIN_REDIRECT_URL = 'dashboard'
+
 # Application definition
 
 INSTALLED_APPS = [

@@ -11,13 +11,16 @@
                     <li class="nav-item">
                         <a class="nav-link active" href="{% url 'index' %}">Accueil</a>
                     </li>
-                    {% if not user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link active" href="{% url 'users:login' %}">Log in</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="{% url 'users:register' %}">Sign up</a>
-                    </li>
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'users:login' %}">Log in</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'users:register' %}">Sign up</a>
+                        </li>
                     {% endif %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'about' %}">À propos</a>
