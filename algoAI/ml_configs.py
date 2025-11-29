@@ -687,6 +687,19 @@ ML_CONFIGS = {
         detail_pdf='pdfs/Supervised_learning_classification_guide.pdf',
         demo_pdf='pdfs/random_forest_regression_demo.pdf',
     ),
+    #XGBoost regression
+    'XGBoost_regression': create_model(
+        name='XGBoost_regression',
+        display_name='Car Price Prediction - XGBoost_regression',
+        description="Predict car prices using XGBoost Forest algorithm",
+        model_file='XGBoost_regression.pkl',
+        image_path='images/XGBoost.png',
+        field_keys=['Make', 'Model', 'Fuel_Type', 'Transmission', 'Year', 'Engine_Size', 'Mileage'],
+        output_class_key='car_price',
+        scaler_file=None,
+        detail_pdf='pdfs/regression_linaire.pdf',
+        demo_pdf='pdfs/xgboost_regression_demo.pdf',
+    ),
     # SVM clasification
     'SVM_classification': create_model(
         name='SVM_classification',
