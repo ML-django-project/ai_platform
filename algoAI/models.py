@@ -20,9 +20,9 @@ class MLModel(models.Model):
     name = models.CharField(max_length=100, unique=True)
     display_name = models.CharField(max_length=200)
     description = models.TextField()
-    model_file = models.CharField(max_length=200)  # filename in models_ai folder
-    scaler_file = models.CharField(max_length=200, blank=True, null=True)  # NEW: scaler filename
-    image_path = models.CharField(max_length=200)  # path to card image
+    model_file = models.CharField(max_length=200) 
+    scaler_file = models.CharField(max_length=200, blank=True, null=True)  
+    image_path = models.CharField(max_length=200)  
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)  

@@ -304,6 +304,7 @@ FIELDS = {
     },
     #####################################################################################################################
     ############ car price ##############################################################################################
+
     'Make': {
         'name': 'Make',
         'label': 'Car Make',
@@ -667,7 +668,7 @@ ML_CONFIGS = {
         display_name='Car Price Prediction - regression_linaire',
         description="Predict car prices using Random Forest algorithm",
         model_file='Linear_Regression.pkl',
-        image_path='images/random_forest.png',
+        image_path='images/regression_linaire.png',
         field_keys=['Make', 'Model', 'Fuel_Type', 'Transmission', 'Year', 'Engine_Size', 'Mileage'],
         output_class_key='car_price',
         scaler_file=None,
@@ -705,6 +706,7 @@ ML_CONFIGS = {
         demo_pdf=  'pdfs/svm_classification_demo.pdf',
     ),
     # Car Price - Random Forest Regression
+
     'Random_Forest_regression': create_model(
         name='Random_Forest_regression',
         display_name='Car Price Prediction - Random Forest Regression',
@@ -717,6 +719,7 @@ ML_CONFIGS = {
         detail_pdf='pdfs/random_forest_regression_guide.pdf',
         demo_pdf='pdfs/random_forest_regression_demo.pdf',
     ),
+    
     # Random Forest - classification
     'Random_Forest_classification': create_model(
         name='Random_Forest_classification',
