@@ -18,13 +18,23 @@ def load_ml_model(model_name):
 
     # Load model
     model_path = os.path.join(models_dir, config['model_file'])
-    model = joblib.load(model_path)
+    loaded_model = joblib.load(model_path)
+    # Handle case where model file contains a dict with 'model' key
+    if isinstance(loaded_model, dict) and 'model' in loaded_model:
+        model = loaded_model['model']
+    else:
+        model = loaded_model
 
     # Load scaler if exists
     scaler = None
     if config.get('scaler_file'):
         scaler_path = os.path.join(models_dir, config['scaler_file'])
-        scaler = joblib.load(scaler_path)
+        loaded_scaler = joblib.load(scaler_path)
+        # Handle case where scaler file contains a dict with 'scaler' key
+        if isinstance(loaded_scaler, dict) and 'scaler' in loaded_scaler:
+            scaler = loaded_scaler['scaler']
+        else:
+            scaler = loaded_scaler
     
     return model, scaler
 
