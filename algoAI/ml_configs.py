@@ -386,6 +386,36 @@ ML_CONFIGS = {
         detail_pdf= 'pdfs/Supervised_learning_classification_guide.pdf',
         demo_pdf=  'pdfs/svm_classification_demo.pdf',
     ),
+     #XGB regression
+    'XGB_regression': create_model(
+        name='XGB_regression',
+        display_name='Car Price Prediction - XGB Regression',
+        description="Predict car prices using eXtreme Gradient Boosting Regression.",
+        model_file='RF_Regression.pkl',
+        image_path='images/XGB_image.png',
+        field_keys=['Make', 'Model', 'Fuel_Type', 'Transmission', 'Year', 'Engine_Size', 'Mileage'],
+        output_class_key='car_price',
+        scaler_file='Scaler_RF_Regression.pkl',
+        detail_pdf='pdfs/Supervised_learning_classification_guide.pdf',
+        demo_pdf='pdfs/random_forest_regression_demo.pdf',
+    ),
+    # XGB clasification
+    'XGB_classification': create_model(
+        name='XGB_classification',
+        display_name='Heart Disease Risk Prediction - XGB classification',
+        description="Predict heart disease risk using eXtreme Gradient Boosting Regression ",
+        model_file='xgboost_with_scaler.pkl',
+        image_path='images/XGB_image.png',
+        field_keys=[
+            'Hypertension', 'Cholesterol_Total', 'Diabetes', 'Age', 'Previous_Heart_Attack', 'Systolic_BP', 'Heart_Rate', 'Diastolic_BP'
+        ],
+        output_class_key='heart_risk',
+        scaler_file= 'xgboost_with_scaler.pkl',
+        detail_pdf= 'pdfs/Xgboost_cours.pdf',
+        demo_pdf=  'pdfs/xgboost_demo_cla.pdf',
+    ),
+    
+    
     # Car Price - Random Forest Regression
 
     'Random_Forest_regression': create_model(

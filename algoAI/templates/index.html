@@ -100,12 +100,12 @@
                     </div>
                 </div>
             </div>
-<!-- svm -->
+<!-- svm --------------------------------------------->
             <div class="col">
                 <div class="card h-100">
                     <h5 class="card-header">SVM</h5>
                     <div class="card-body">
-                        <img src="{% static 'images/SVM.png' %}" class="card-img-top" alt="Random Forest">
+                        <img src="{% static 'images/SVM.png' %}" class="card-img-top" alt="svm">
                         <div class="card-text mt-3">
                             <p>Algorithme d'arbres de décision</p>
                         </div>
@@ -127,6 +127,40 @@
                                     <strong>Régression</strong>
                                 </div>
                                 <a class="btn btn-primary btn-sm w-100" href="{% url 'model_overview' 'SVM_regression' %}">
+                                    Voir le modèle
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+<!-- XGB -->
+            <div class="col">
+                <div class="card h-100">
+                    <h5 class="card-header">Extreme Gradient Boosting</h5>
+                    <div class="card-body">
+                        <img src="{% static 'images/XGB_image.png' %}" class="card-img-top" alt="XGBoost">
+                        <div class="card-text mt-3">
+                            <p>Algorithme de eXtreme Gradient Boosting XGBoost</p>
+                        </div>
+                        
+                        <div class="model-variants mt-3">
+                            <h6 class="text-muted mb-3">Choisir le type:</h6>
+                            
+                            <div class="variant-option mb-3 p-3 border rounded">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <strong>Classification :</strong>
+                                </div>
+                                <a class="btn btn-primary btn-sm w-100" href="{% url 'model_overview' 'XGB_classification' %}">
+                                    Voir le modèle
+                                </a>
+                            </div>
+                            
+                            <div class="variant-option p-3 border rounded">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <strong>Régression</strong>
+                                </div>
+                                <a class="btn btn-primary btn-sm w-100" href="{% url 'model_overview' 'XGB_regression' %}">
                                     Voir le modèle
                                 </a>
                             </div>
