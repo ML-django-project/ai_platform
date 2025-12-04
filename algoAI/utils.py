@@ -117,7 +117,9 @@ def prepare_regression_features(model_name, post_data):
                       'SVM_regression', 
                       'regression_linaire', 
                       'Decision_Tree_regression', 
-                      'XGB_regression']:
+                      'XGB_regression',
+                      'SVM_regression'
+                      ]:
         return prepare_car_price_features(post_data)
     else:
         # Use standard preparation for other models
