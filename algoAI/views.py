@@ -116,7 +116,8 @@ def model_prediction(request, model_name):
             'Random_Forest_regression', 
             'SVM_regression', 
             'regression_linaire', 
-            'Decision_Tree_regression'
+            'Decision_Tree_regression',
+            'XGB_regression' 
         ]
         
         if is_regression:
@@ -201,7 +202,6 @@ def model_prediction(request, model_name):
         print(f"Error in prediction: {str(e)}")
         print(traceback.format_exc())
         return render(request, 'ml/error.html', {'error': str(e)})
-
 
 @login_required
 def dashboard(request):

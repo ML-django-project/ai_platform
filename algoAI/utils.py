@@ -113,7 +113,11 @@ def prepare_regression_features(model_name, post_data):
     config = get_model_config(model_name)
     
     # Check which regression model this is
-    if model_name in ['Random_Forest_regression', 'SVM_regression', 'regression_linaire', 'Decision_Tree_regression']:
+    if model_name in ['Random_Forest_regression',
+                      'SVM_regression', 
+                      'regression_linaire', 
+                      'Decision_Tree_regression', 
+                      'XGB_regression']:
         return prepare_car_price_features(post_data)
     else:
         # Use standard preparation for other models
@@ -183,6 +187,7 @@ def make_regression_prediction(model_name, features):
     
     # Apply scaling if scaler exists
     if scaler is not None:
+        # Only Random Forest and SVM regression use scalers
         if model_name in ['Random_Forest_regression', 'SVM_regression']:
             # Feature structure (17 total features):
             # [0-4]: Make (one-hot encoded, 5 features)
@@ -217,6 +222,7 @@ def make_regression_prediction(model_name, features):
             # Standard scaling for other regression models
             features_array = scaler.transform(features_array)
     
+    # XGBoost and other models without scalers use features as-is
     # Make prediction
     prediction = model.predict(features_array)
     predicted_value = float(prediction[0])
