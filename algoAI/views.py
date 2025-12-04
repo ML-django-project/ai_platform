@@ -252,7 +252,7 @@ def dashboard(request):
 
 @login_required
 def download_predictions_pdf(request, model_name=None):
-    """Download predictions as PDF"""
+    """Download predictions as PDF - Compact version with key fields only"""
     predictions = Prediction.objects.filter(user=request.user)
     
     if model_name:
@@ -280,6 +280,14 @@ def download_predictions_pdf(request, model_name=None):
         alignment=TA_CENTER
     )
     
+    cell_style = ParagraphStyle(
+        'CellStyle',
+        parent=styles['Normal'],
+        fontSize=8,
+        leading=10,
+        wordWrap='CJK'
+    )
+    
     title_para = Paragraph(f"{title} - {request.user.username}", title_style)
     elements.append(title_para)
     elements.append(Spacer(1, 0.3*inch))
@@ -292,43 +300,102 @@ def download_predictions_pdf(request, model_name=None):
     elements.append(metadata)
     elements.append(Spacer(1, 0.3*inch))
     
+    # Define key fields to show based on model type
+    def format_input_compact(input_data):
+        """Show only the most important 3-4 fields"""
+        key_fields = []
+        
+        # For car price models
+        if 'Make' in input_data:
+            key_fields = [
+                f"{input_data.get('Make', '')} {input_data.get('Model', '')}",
+                f"{input_data.get('Year', '')}",
+                f"{input_data.get('Mileage', '')} km"
+            ]
+        # For heart disease models
+        elif 'Age' in input_data:
+            key_fields = [
+                f"Age: {input_data.get('Age', '')}",
+                f"BP: {input_data.get('Systolic_BP', '')}/{input_data.get('Diastolic_BP', '')}",
+                f"Chol: {input_data.get('Cholesterol_Total', '')}"
+            ]
+        else:
+            # Generic fallback - show first 3 items
+            items = list(input_data.items())[:3]
+            key_fields = [f"{k}: {v}" for k, v in items]
+        
+        return ', '.join(key_fields)
+    
     # Table header
-    data = [['ID', 'Modèle', 'Données Entrées', 'Résultat', 'Date']]
+    data = [['ID', 'Modèle', 'Principales Données', 'Résultat', 'Date']]
     
     for pred in predictions:
-        input_str = ', '.join([f"{k}: {v}" for k, v in pred.input_data.items()])
+        # Format input data compactly
+        input_str = format_input_compact(pred.input_data)
+        input_para = Paragraph(input_str, cell_style)
+        
+        # Format result
         result_str = pred.prediction_result.get('label', 'N/A')
+        
+        # Format model name
+        model_name_short = pred.ml_model.display_name
+        if len(model_name_short) > 30:
+            model_name_short = model_name_short[:27] + "..."
+        model_para = Paragraph(model_name_short, cell_style)
         
         data.append([
             str(pred.id),
-            pred.ml_model.display_name,
-            input_str,
+            model_para,
+            input_para,
             result_str,
-            pred.created_at.strftime('%d/%m/%Y %H:%M')
+            pred.created_at.strftime('%d/%m/%Y\n%H:%M')
         ])
     
-    table = Table(data, colWidths=[0.6*inch, 1.5*inch, 2.5*inch, 1.5*inch, 1.5*inch])
+    # Balanced column widths
+    table = Table(data, colWidths=[0.4*inch, 1.8*inch, 2.8*inch, 1.3*inch, 0.9*inch])
     
     table.setStyle(TableStyle([
+        # Header styling
         ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#343a40')),
         ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
         ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
         ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-        ('FONTSIZE', (0, 0), (-1, 0), 10),
+        ('FONTSIZE', (0, 0), (-1, 0), 9),
         ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
         ('TOPPADDING', (0, 0), (-1, 0), 12),
+        
+        # Body styling
         ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
         ('TEXTCOLOR', (0, 1), (-1, -1), colors.black),
         ('FONTNAME', (0, 1), (-1, -1), 'Helvetica'),
         ('FONTSIZE', (0, 1), (-1, -1), 8),
-        ('ALIGN', (0, 1), (-1, -1), 'CENTER'),
-        ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ('ALIGN', (0, 1), (0, -1), 'CENTER'),  # Center ID
+        ('ALIGN', (1, 1), (-2, -1), 'LEFT'),    # Left align text columns
+        ('ALIGN', (-1, 1), (-1, -1), 'CENTER'), # Center date
+        ('VALIGN', (0, 1), (-1, -1), 'MIDDLE'),
+        
+        # Grid
+        ('GRID', (0, 0), (-1, -1), 0.5, colors.black),
         ('ROWBACKGROUNDS', (0, 1), (-1, -1), [colors.white, colors.lightgrey]),
-        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        
+        # Padding
+        ('LEFTPADDING', (0, 0), (-1, -1), 5),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 5),
+        ('TOPPADDING', (0, 1), (-1, -1), 8),
+        ('BOTTOMPADDING', (0, 1), (-1, -1), 8),
     ]))
     
     elements.append(table)
     elements.append(Spacer(1, 0.5*inch))
+    
+    # Add note about data
+    note = Paragraph(
+        "<i>Note: Seules les principales données sont affichées dans ce rapport. "
+        "Pour voir tous les détails, consultez l'historique en ligne.</i>",
+        ParagraphStyle('Note', parent=styles['Normal'], fontSize=8, textColor=colors.grey)
+    )
+    elements.append(note)
+    elements.append(Spacer(1, 0.2*inch))
     
     footer = Paragraph(
         "© 2025-2026 AI Platform. Pr. Mohammed AMEKSA - All rights reserved.",
