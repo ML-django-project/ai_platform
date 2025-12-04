@@ -353,8 +353,8 @@ ML_CONFIGS = {
         field_keys=['Make', 'Model', 'Fuel_Type', 'Transmission', 'Year', 'Engine_Size', 'Mileage'],
         output_class_key='car_price',
         scaler_file=None,
-        detail_pdf='pdfs/random_forest_regression_guide.pdf',
-        demo_pdf='pdfs/random_forest_regression_demo.pdf',
+        detail_pdf='pdfs/regression_linaire.pdf',
+        demo_pdf='pdfs/linear_regression_demo.pdf',
     ),
     #SVM regression
     'SVM_regression': create_model(
@@ -366,8 +366,8 @@ ML_CONFIGS = {
         field_keys=['Make', 'Model', 'Fuel_Type', 'Transmission', 'Year', 'Engine_Size', 'Mileage'],
         output_class_key='car_price',
         scaler_file='Scaler_SVM_Regression.pkl',  
-        detail_pdf='pdfs/Supervised_learning_classification_guide.pdf',
-        demo_pdf='pdfs/random_forest_regression_demo.pdf',
+        detail_pdf='pdfs/svm_cours.pdf',
+        demo_pdf='pdfs/svm-regression.pdf',
     ),
     # SVM clasification
     'SVM_classification': create_model(
